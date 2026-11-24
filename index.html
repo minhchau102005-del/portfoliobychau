@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PortfoliobyChau</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%232a1f1b%22/%3E%3Cpath%20d%3D%22M44%2021.5A15%2015%200%201%200%2044%2042.5%22%20fill%3D%22none%22%20stroke%3D%22%23f5eee5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M28%2025.5v13l11-6.5z%22%20fill%3D%22%23e9a493%22/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%232a1f1b%22/%3E%3Cpath%20d%3D%22M44%2021.5A15%2015%200%201%200%2044%2042.5%22%20fill%3D%22none%22%20stroke%3D%22%23f5eee5%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M28%2025.5v13l11-6.5z%22%20fill%3D%22%23e9a493%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: đếm ngược đầu phim → 3 trang (Giới thiệu / Dự án / Dịch vụ), mỗi lần chuyển trang có màn dẫn "0X / 03". Tông kem – hồng đất – nâu espresso cho ngành beauty. */
+:root{
+  --bg:#f5eee5;        /* kem */
+  --panel:#fbf7f1;     /* kem sáng */
+  --line:#e2d4c4;
+  --ink:#2e221d;       /* nâu espresso */
+  --muted:#6f5e53;
+  --rose:#b9776c;      /* hồng đất */
+  --gold:#a8865a;      /* vàng champagne đậm */
+  --dark:#2a1f1b;      /* dải phim, nền video */
+  --display:"Oswald", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.85;letter-spacing:.012em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+.mono{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.display{font-family:var(--display);font-weight:500;text-transform:uppercase;line-height:1.18;letter-spacing:.055em;word-spacing:.16em}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:13px 22px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .25s, background .25s}
+.btn:hover{transform:translateY(-2px);background:var(--rose)}
+
+/* ===== HIỆU ỨNG ===== */
+/* chữ nhảy lên */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .01em .1em;margin:-.04em 0 -.1em}
+.split .c{display:inline-block;transform:translateY(110%);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.split.in .c{transform:none}
+/* khối trượt lên */
+.js [data-r]{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1)}
+.js [data-r].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.split .c,.js [data-r]{transform:none!important;opacity:1!important;transition:none!important}}
+
+/* thanh tiến độ cuộn */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:linear-gradient(90deg,var(--gold),var(--rose));transform-origin:0 50%;transform:scaleX(0);z-index:60}
+
+/* đếm ngược đầu phim */
+#leader{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease, visibility .6s}
+#leader.done{opacity:0;visibility:hidden}
+#leader svg{width:min(520px,78vw);height:auto;overflow:visible}
+#leader .num{font-family:var(--display);font-weight:600;font-size:250px;fill:var(--ink)}
+#leader .brand{font-family:var(--mono);font-size:15px;letter-spacing:.12em;fill:var(--muted)}
+#leader .skip{position:absolute;bottom:28px;right:28px;background:none;border:1px solid var(--line);padding:8px 16px;border-radius:999px;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* màn dẫn chuyển trang */
+#chapter{position:fixed;inset:0;z-index:90;background:radial-gradient(ellipse at 50% 45%,#fbf6ef,var(--bg) 70%);display:grid;place-items:center;text-align:center;visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .7s cubic-bezier(.7,0,.2,1), visibility 0s .7s}
+#chapter.show{visibility:visible;clip-path:inset(0 0 0 0);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+#chapter.leave{clip-path:inset(0 0 0 0);visibility:visible}
+#chapter.leave.up{clip-path:inset(0 0 100% 0);transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
+#chapter .ix{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--gold);margin-bottom:22px;opacity:0;transition:opacity .6s .3s}
+#chapter h2{font-family:var(--display);font-weight:300;font-size:clamp(52px,8vw,92px);letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;line-height:1.1}
+#chapter .ln{width:120px;height:1px;margin:34px auto 0;background:linear-gradient(90deg,transparent,var(--rose),transparent);transform:scaleX(0);transition:transform 1s .5s cubic-bezier(.2,.8,.2,1)}
+#chapter.show .ix{opacity:1}
+#chapter.show .ln{transform:scaleX(1)}
+
+/* ===== NAV ===== */
+nav{position:sticky;top:0;z-index:30;background:rgba(245,238,229,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--display);font-weight:500;font-size:21px;text-transform:uppercase;text-decoration:none;letter-spacing:.08em;white-space:nowrap}
+.tabs{display:flex;gap:28px;margin-left:auto}
+.tabs a{text-decoration:none;font-size:15px;color:var(--muted);padding:21px 0;border-bottom:2px solid transparent;transition:color .2s}
+.tabs a small{font-family:var(--mono);font-size:10px;font-weight:600;margin-right:6px}
+.tabs a:hover{color:var(--ink)}
+.tabs a.on{color:var(--ink);border-color:var(--rose)}
+.tabs a.on small{color:var(--rose)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.lang-btn{display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--ink)}
+.lang-btn:hover{border-color:var(--rose)}
+.nav-cta .short{display:none}
+.burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;place-content:center;gap:5px;padding:0}
+.burger span{display:block;width:18px;height:1.6px;background:var(--ink);transition:transform .3s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+.mnav{position:fixed;left:0;right:0;top:66px;bottom:0;z-index:29;background:var(--bg);overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .3s,visibility 0s .3s}
+.mnav.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+.mnav .wrap{display:flex;flex-direction:column;padding-top:8px;padding-bottom:32px}
+.mnav a[data-go]{display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;font-weight:600;font-size:22px;letter-spacing:.01em}
+.mnav a small{font-family:var(--mono);font-size:11px;font-weight:600;font-weight:400;color:var(--muted);letter-spacing:.14em}
+.mnav a.on{color:var(--gold)}
+.mnav a.on span::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin-left:10px;vertical-align:middle}
+.mnav-foot{display:flex;flex-direction:column;gap:16px;margin-top:28px}
+.mnav-foot .btn{justify-content:center}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--panel)}
+.seg button{border:0;background:none;border-radius:999px;padding:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--ink);color:var(--bg)}
+@media (max-width:900px){
+  nav .wrap{height:62px;gap:10px}
+  .mnav{top:62px}
+  .tabs{display:none}
+  .burger{display:grid}
+  .brand{font-size:17px;letter-spacing:.06em}
+  .lang-btn{width:44px;height:44px;padding:0;justify-content:center}
+  .lang-btn span{display:none}
+  .nav-cta{padding:11px 16px;font-size:14px}
+  .nav-cta .full{display:none}.nav-cta .short{display:inline}
+}
+@media (max-width:380px){.nav-cta{display:none}}
+@media (max-width:520px){
+  .fan{height:330px}.fan img{width:140px}
+  .fan img:nth-child(1){transform:translate(-50%,-50%) translateX(-78px) rotate(-10deg)}
+  .fan img:nth-child(3){transform:translate(-50%,-50%) translateX(78px) rotate(10deg)}
+  .wrap{padding:0 18px}
+  section{padding:64px 0}
+}
+
+/* ===== VIEWS ===== */
+.view{display:none}
+.view.on{display:block}
+section{padding:80px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.head h2{font-size:clamp(48px,6.6vw,84px)}
+.head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;margin-bottom:28px}
+.head-text{display:flex;flex-direction:column;gap:14px;min-width:0}
+.head-art{width:clamp(130px,22vw,230px);color:var(--ink)}
+.head-art svg{width:100%;height:auto;display:block;overflow:visible}
+.spin{animation:spin 4s linear infinite}
+.spin.slow{animation-duration:5.5s}
+.rec{animation:blink 1.2s steps(2,start) infinite}
+.snap{animation:snap 2.4s cubic-bezier(.6,0,.3,1) infinite}
+.playhead{animation:play 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes snap{0%,55%{transform:rotate(-16deg)}68%,100%{transform:rotate(0)}}
+@keyframes play{from{transform:translateX(0)}to{transform:translateX(116px)}}
+.has-banner{padding-top:0}
+.banner{position:relative;overflow:hidden;isolation:isolate;height:clamp(230px,32vw,380px);margin-bottom:40px;display:flex;align-items:flex-end}
+.banner-inner{position:relative;z-index:2;width:100%;padding-bottom:34px;display:flex;flex-direction:column;gap:10px}
+.banner h2{font-size:clamp(56px,10vw,140px);line-height:1.05}
+.banner-video{background:var(--dark)}
+.banner-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.banner-video::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(42,31,27,.88) 0%,rgba(42,31,27,.55) 45%,rgba(42,31,27,.15) 100%),linear-gradient(0deg,rgba(42,31,27,.6),transparent 50%)}
+.banner-video h2{color:#f5eee5}
+.banner-video .mono{color:#e9b3a3}
+.banner-film{background:var(--bg);border-bottom:1px solid var(--line)}
+.film-wide{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.banner-fade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--bg) 0%,rgba(245,238,229,.85) 28%,rgba(245,238,229,0) 60%)}
+.banner-film .mono{color:var(--gold)}
+.film-wide .frames{animation:filmw 3s linear infinite}
+.film-wide .holes{animation:holesw 3s linear infinite}
+@keyframes filmw{to{stroke-dashoffset:-176}}
+@keyframes holesw{to{stroke-dashoffset:-80}}
+@media (max-width:640px){.banner{height:240px;margin-bottom:28px}.banner-fade{background:linear-gradient(0deg,var(--bg) 0%,rgba(245,238,229,.7) 40%,rgba(245,238,229,0) 75%)}}
+.head-video{width:clamp(170px,30vw,340px);aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--dark);box-shadow:0 20px 40px -24px rgba(46,34,29,.5)}
+.head-video video{width:100%;height:100%;object-fit:cover;display:block}
+.frames{animation:film 3s linear infinite}
+.holes{animation:holes 3s linear infinite}
+@keyframes film{to{stroke-dashoffset:-168}}
+@keyframes holes{to{stroke-dashoffset:-168}}
+.orb{transform-box:fill-box;transform-origin:center;animation:orb 5s ease-in-out infinite}
+@keyframes orb{50%{transform:scale(1.25);opacity:.55}}
+.sparkle path{transform-box:fill-box;transform-origin:center;animation:tw 2.6s ease-in-out infinite}
+.sparkle path:nth-child(2){animation-delay:1.3s}
+.ba-feature{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:36px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:28px}
+.ba-feature video{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:var(--dark);display:block}
+.ba-text .mono{color:var(--gold)}
+.ba-text h3{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.4vw,42px);text-transform:uppercase;letter-spacing:.05em;line-height:1.2;margin:12px 0 14px}
+.ba-text p{color:var(--muted);line-height:1.85;max-width:48ch}
+@media (max-width:760px){.ba-feature{grid-template-columns:1fr;gap:20px;padding:14px}.ba-feature video{max-width:420px;margin:0 auto}}
+.groups{display:flex !important;gap:10px;flex-wrap:wrap}
+.gchip{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:600;font-size:15px;color:var(--ink);transition:background .2s,color .2s,border-color .2s}
+.gchip span{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted)}
+.gchip:hover{border-color:var(--rose)}
+.gchip[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gchip[aria-expanded="true"] span{color:#e9b3a3}
+.twinkle path{transform-box:fill-box;transform-origin:center;animation:tw 2.4s ease-in-out infinite}
+.twinkle path:nth-child(2){animation-delay:.8s}.twinkle path:nth-child(3){animation-delay:1.6s}
+@keyframes tw{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1);opacity:1}}
+.bars path{transform-box:fill-box;transform-origin:center;animation:bar 1.1s ease-in-out infinite alternate;animation-delay:var(--d)}
+@keyframes bar{from{transform:scaleY(.2)}to{transform:scaleY(1)}}
+@media (max-width:640px){.group{min-height:300px}.group .art{width:58%;top:40px}}
+@media (prefers-reduced-motion:reduce){.frames,.holes,.orb,.sparkle path{animation:none}}
+
+/* HERO */
+.hero{position:relative;padding:0 0 64px;overflow:hidden;isolation:isolate}
+.hero h1{font-size:clamp(32px,6.2vw,88px);line-height:1.16;letter-spacing:.045em;max-width:15ch}
+.hero-banner{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(320px,42vw,520px);display:flex;align-items:flex-end;margin-bottom:48px;border-bottom:1px solid var(--line)}
+.hero-title-wrap{position:relative;z-index:2;width:100%;padding-top:48px;padding-bottom:44px}
+.thumb-cols{position:absolute;z-index:-2;top:-30%;bottom:-30%;right:-6%;width:62%;display:grid;grid-template-columns:repeat(6,1fr);gap:12px;transform:rotate(-9deg)}
+.tcol{overflow:hidden}
+.tcol-in{display:flex;flex-direction:column;gap:12px;animation:tup var(--dur) linear infinite}
+.tcol.rev .tcol-in{animation-direction:reverse}
+.tcol img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;display:block}
+@keyframes tup{to{transform:translateY(-50%)}}
+.hero-fade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 34%,rgba(245,238,229,.82) 52%,rgba(245,238,229,.25) 78%,rgba(245,238,229,.1) 100%),linear-gradient(0deg,var(--bg) 0%,rgba(245,238,229,0) 30%)}
+@media (max-width:760px){
+  .thumb-cols{width:130%;right:-15%;top:-20%;bottom:-20%;grid-template-columns:repeat(6,1fr);opacity:.9}
+  .hero-fade{background:linear-gradient(0deg,var(--bg) 0%,var(--bg) 30%,rgba(245,238,229,.72) 62%,rgba(245,238,229,.35) 100%)}
+  .hero-banner{min-height:360px;margin-bottom:32px}
+  .hero h1{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){.tcol-in{animation:none}}
+.hero h1 em{font-style:normal;color:var(--rose)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:56px;align-items:center}
+.reel{margin:0;width:100%;max-width:380px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 30px 60px -34px rgba(46,34,29,.45)}
+.reel-frame{position:relative;border-radius:9px;overflow:hidden;background:var(--dark)}
+.reel-frame video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
+.reel-tag{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:7px;background:rgba(245,238,229,.92);color:var(--ink);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:999px;pointer-events:none}
+.reel-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--rose)}
+.reel-cap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 6px 6px}
+.reel-cap b{display:block;font-size:16px;font-weight:600;line-height:1.4}
+.reel-cap span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.reel-cap em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--ink);border:1px solid var(--line);padding:5px 10px;border-radius:999px;flex:none}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr;gap:36px}.reel{margin:0 auto}}
+.intro .mono{margin-bottom:16px;color:var(--gold)}
+.intro p.lead{font-size:clamp(17px,1.5vw,19px);line-height:1.9;max-width:48ch;margin-bottom:24px}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:7px 14px;border-radius:999px;margin-bottom:22px}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#5f9a6e;box-shadow:0 0 0 4px rgba(95,154,110,.18)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-line{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--bg)}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:64px}
+@media (max-width:860px){.why{grid-template-columns:1fr}}
+.why .n{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--gold)}
+.why h3{font-family:var(--display);font-weight:500;font-size:28px;text-transform:uppercase;letter-spacing:.06em;line-height:1.3;margin:12px 0}
+.why p{color:var(--muted);max-width:38ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+.step{border-top:1px solid var(--rose);padding-top:16px}
+.step .n{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--gold)}
+.step h4{font-family:var(--display);font-weight:500;font-size:24px;text-transform:uppercase;letter-spacing:.06em;line-height:1.3;margin:8px 0}
+.step p{color:var(--muted);font-size:15px}
+.prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:56px}
+@media (max-width:760px){.prices{grid-template-columns:1fr}}
+.price-card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:30px;display:flex;flex-direction:column;gap:14px}
+.price-card.hot{border-color:var(--rose);box-shadow:0 0 0 1px var(--rose)}
+.price-card .tag-hot{position:absolute;top:-12px;left:30px;background:var(--rose);color:#fff;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+.price-card h3{font-family:var(--display);font-weight:500;font-size:28px;text-transform:uppercase;letter-spacing:.06em;line-height:1.2}
+.price-card .amt{font-family:var(--display);font-weight:500;font-size:52px;letter-spacing:.03em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.price-card .amt small{font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;color:var(--muted);margin-left:6px}
+.price-card ul{list-style:none;display:grid;gap:9px;font-size:15px;color:var(--muted);line-height:1.6}
+.price-card li::before{content:"—";color:var(--rose);margin-right:10px}
+.price-note{margin-top:20px;font-size:15px;line-height:1.85;color:var(--muted);max-width:70ch}
+.price-note b{color:var(--ink);font-weight:600}
+.terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:40px}
+@media (max-width:860px){.terms{grid-template-columns:1fr}}
+.term{border-top:1px solid var(--rose);padding-top:16px}
+.term .n{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.term b{display:block;font-family:var(--display);font-weight:500;font-size:38px;letter-spacing:.04em;line-height:1.2;margin:8px 0 6px}
+.term p{color:var(--muted);font-size:15px;line-height:1.75}
+@media (min-width:601px) and (max-width:1024px){
+  .hero-grid{grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:32px;align-items:start}
+  .reel{margin:0}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .stat{padding:18px}.stat b{font-size:40px}
+  .why{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .ba-feature{grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:24px}
+  .prices{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .terms{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ct-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px}
+  .fan{height:340px}.fan img{width:150px}
+  section{padding:56px 0}
+}
+.rev-notes{margin-top:32px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--rose);border-radius:8px;padding:22px 26px}
+.rev-notes .mono{color:var(--gold);margin-bottom:12px}
+.rev-notes ul{list-style:none;display:grid;gap:10px}
+.rev-notes li{position:relative;padding-left:22px;line-height:1.75;color:var(--ink);font-size:15px}
+.rev-notes li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--rose)}
+/* contact */
+.contact{position:relative;overflow:hidden;isolation:isolate;background:var(--dark);color:#f5eee5;padding:0 0 120px}
+.ct-band{border-bottom:1px solid #43342d;padding:18px 0;overflow:hidden;margin-bottom:84px}
+.ct-row{display:flex;gap:48px;width:max-content;animation:roll 30s linear infinite}
+.ct-row span{font-family:var(--display);font-weight:300;font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:#cdb7a9;white-space:nowrap}
+.ct-row i{font-style:normal;color:#e2a594;margin-left:48px}
+.ct-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:56px;align-items:center}
+@media (max-width:900px){.ct-grid{grid-template-columns:1fr}}
+.ct-label{color:#e2a594;margin-bottom:20px}
+.contact h2{font-size:clamp(40px,6vw,80px);line-height:1.18;color:#f5eee5}
+.contact h2 em{font-style:normal;color:#e9b3a3}
+.ct-lead{font-size:17px;line-height:1.85;color:#c9b8ab;max-width:46ch;margin:26px 0 34px}
+.ct-phone{display:inline-block;font-family:var(--display);font-weight:400;font-size:clamp(44px,6.4vw,88px);letter-spacing:.08em;line-height:1.1;color:#f5eee5;text-decoration:none;border-bottom:1px solid #e2a594;padding-bottom:6px;transition:color .3s;font-variant-numeric:tabular-nums}
+.ct-phone:hover{color:#e9b3a3}
+.ct-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.ct-btn{display:inline-flex;align-items:center;padding:14px 26px;border-radius:999px;border:1px solid #6b5449;color:#f5eee5;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:.02em;transition:background .25s,border-color .25s,color .25s}
+.ct-btn:hover{border-color:#e9b3a3}
+.ct-btn-fill{background:#f5eee5;color:var(--dark);border-color:#f5eee5}
+.ct-btn-fill:hover{background:#e9b3a3;border-color:#e9b3a3}
+.fan{position:relative;height:440px}
+.fan img{position:absolute;top:50%;left:50%;width:200px;aspect-ratio:9/16;object-fit:cover;border-radius:10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.fan img:nth-child(1){transform:translate(-50%,-50%) translateX(-110px) rotate(-10deg)}
+.fan img:nth-child(2){transform:translate(-50%,-50%) translateY(-14px);z-index:2}
+.fan img:nth-child(3){transform:translate(-50%,-50%) translateX(110px) rotate(10deg)}
+.fan:hover img:nth-child(1){transform:translate(-50%,-50%) translateX(-150px) rotate(-14deg)}
+.fan:hover img:nth-child(3){transform:translate(-50%,-50%) translateX(150px) rotate(14deg)}
+@media (max-width:900px){.fan{height:380px}.fan img{width:170px}}
+.ct-ghost{position:absolute;left:0;right:0;bottom:-.2em;z-index:-1;text-align:center;font-family:var(--display);font-weight:500;font-size:22vw;line-height:1;text-transform:uppercase;letter-spacing:.04em;color:transparent;-webkit-text-stroke:1px rgba(233,179,163,.16);white-space:nowrap;pointer-events:none}
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:760px){.stats{grid-template-columns:1fr}}
+.stat{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:26px;overflow:hidden}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--rose));transform:scaleX(0);transform-origin:0 50%;transition:transform 1.2s .2s cubic-bezier(.2,.8,.2,1)}
+.stat.in::before{transform:scaleX(1)}
+.stat b{display:block;font-family:var(--display);font-weight:500;letter-spacing:.03em;font-size:56px;line-height:1;color:var(--rose);font-variant-numeric:tabular-nums}
+.stat span{display:block;margin:12px 0 8px;font-size:16px;line-height:1.7}
+.stat small{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* marquee chữ */
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;margin-top:56px}
+.marquee .row{display:flex;gap:56px;width:max-content;animation:roll 38s linear infinite}
+.marquee span{font-family:var(--display);font-weight:400;letter-spacing:.06em;font-size:clamp(26px,3vw,36px);text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.marquee span i{font-style:normal;color:var(--rose);margin-left:56px}
+@keyframes roll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee .row,.track{animation:none}}
+
+/* thẻ sang trang kế */
+.next{display:flex;justify-content:space-between;align-items:center;gap:20px;width:100%;margin-top:64px;padding:34px;border:1px solid var(--line);border-radius:6px;background:var(--panel);cursor:pointer;text-align:left;transition:border-color .3s}
+.next:hover{border-color:var(--rose)}
+.next .display{font-size:clamp(30px,4vw,48px)}
+.next .mono{display:block;margin-bottom:8px}
+.next .arrow{font-size:40px;color:var(--rose);transition:transform .3s}
+.next:hover .arrow{transform:translateY(6px)}
+.next-hint{text-align:center;margin-top:14px}
+
+/* FILM STRIP */
+.strip{position:relative;background:var(--dark);padding:18px 0;margin-bottom:14px;overflow:hidden}
+.strip-hint{text-align:center;margin:0 0 34px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 18px}
+.strip-hint::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rose);animation:blink 1.6s ease-in-out infinite}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,transparent 0 10px,#4a3a33 10px 22px);z-index:2}
+.strip::before{top:4px}.strip::after{bottom:4px}
+.track{display:flex;gap:8px;width:max-content;animation:roll 60s linear infinite}
+.strip:hover .track{animation-play-state:paused}
+.frame{width:92px;aspect-ratio:9/16;border:0;padding:0;cursor:pointer;background:#111;overflow:hidden;flex:none}
+.frame img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.frame:hover img{transform:scale(1.07)}
+
+/* GROUPS */
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:820px){.groups{grid-template-columns:1fr}}
+.group{position:relative;min-height:290px;border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:pointer;text-align:left;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;isolation:isolate;color:#f7f0e8;background:var(--dark)}
+.group .bg{position:absolute;inset:0;z-index:-1;display:grid;grid-template-columns:repeat(3,1fr)}
+.group .bg img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.group:hover .bg img{transform:scale(1.05)}
+.group::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 80% 20%,rgba(185,119,108,.28),transparent 60%)}
+.group .count{position:absolute;top:26px;left:28px;font-family:var(--mono);font-size:12px;letter-spacing:.12em}
+.group .plus{position:absolute;top:16px;right:22px;font-size:38px;font-weight:300;line-height:1;transition:transform .35s}
+.group[aria-expanded="true"]{border-color:var(--rose);box-shadow:0 0 0 2px var(--rose)}
+.group[aria-expanded="true"] .plus{transform:rotate(45deg)}
+.group h3{font-size:clamp(38px,4.4vw,54px);line-height:1.15}
+.group .topics{font-size:15px;line-height:1.7;color:#e6d8cc;max-width:44ch}
+.group .go{font-size:14px;font-weight:600;color:#f0c3b3}
+.panel{margin-top:16px;border:1px solid var(--line);border-radius:6px;padding:26px;background:var(--panel)}
+.panel[hidden]{display:none}
+.panel-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;margin-bottom:22px}
+.panel-head h4{font-family:var(--display);font-weight:500;font-size:34px;text-transform:uppercase;letter-spacing:.04em}
+.panel-head p{color:var(--muted);font-size:15px;line-height:1.8;max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.card{border:0;background:none;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
+.thumb{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:4px;background:var(--dark)}
+.thumb img,.thumb video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb video{opacity:0;transition:opacity .25s}
+.card.playing .thumb video{opacity:1}
+.thumb .dur{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:11px;font-weight:600;background:rgba(42,31,27,.75);color:#f5eee5;padding:3px 7px;border-radius:2px;z-index:2;font-variant-numeric:tabular-nums}
+.card h5{font-size:15px;font-weight:600;line-height:1.5;letter-spacing:.015em}
+.card .k{font-size:13px;color:var(--rose);line-height:1.55}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px}
+.card .tags span{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:2px 8px;border-radius:99px}
+
+/* SERVICES */
+.svc{border-top:1px solid var(--line)}
+.svc-row{border-bottom:1px solid var(--line)}
+.svc-btn{width:100%;display:grid;grid-template-columns:140px 1fr 40px;align-items:center;gap:20px;padding:24px 0;background:none;border:0;cursor:pointer;text-align:left}
+.svc-btn .mono{font-size:11px}
+.svc-btn .display{font-size:clamp(30px,4.2vw,50px);transition:color .25s, transform .35s}
+.svc-btn:hover .display{transform:translateX(8px)}
+.svc-btn .plus{font-size:36px;font-weight:300;line-height:1;transition:transform .35s;justify-self:end}
+.svc-btn[aria-expanded="true"] .plus{transform:rotate(45deg);color:var(--rose)}
+.svc-btn[aria-expanded="true"] .display{color:var(--rose)}
+@media (max-width:640px){.svc-btn{grid-template-columns:1fr 32px}.svc-btn .mono{grid-column:1/-1}}
+.svc-body{display:grid;grid-template-columns:140px 1fr;gap:20px;padding:0 0 30px}
+.svc-body[hidden]{display:none}
+.svc-body > div{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
+@media (max-width:860px){.svc-body{grid-template-columns:1fr}.svc-body > div{grid-template-columns:1fr}}
+.svc-body p{max-width:56ch}
+.svc-body ul{list-style:none;display:grid;gap:8px;font-size:15px;color:var(--muted)}
+.svc-body li::before{content:"—";color:var(--rose);margin-right:10px}
+.svc-body .btn{margin-top:18px}
+
+/* CONTACT */
+.contact h2 em{font-style:normal;color:var(--rose)}
+.channels{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:820px}
+.channel{text-decoration:none;transition:border-color .25s}
+.channel:hover{border-color:var(--rose)}
+.ch-note{font-size:14px;color:var(--muted);margin-top:6px}
+@media (max-width:760px){.channels{grid-template-columns:1fr}}
+.channel{border:1px solid var(--line);border-radius:6px;padding:22px;background:var(--panel)}
+.channel .mono{font-size:11px;margin-bottom:8px}
+.channel b{font-size:20px;font-weight:600}
+footer{border-top:1px solid var(--line);padding:26px 0 96px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* nút nổi + popup */
+.float{position:fixed;left:18px;bottom:18px;z-index:40;background:#0068ff;color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;border:0;cursor:pointer;box-shadow:0 0 0 5px rgba(0,104,255,.18),0 10px 30px rgba(46,34,29,.25)}
+.pop{position:fixed;left:18px;bottom:78px;z-index:41;width:min(320px,calc(100vw - 36px));background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:22px;box-shadow:0 20px 50px -20px rgba(46,34,29,.4);transform:translateY(12px);opacity:0;visibility:hidden;transition:.3s}
+.pop.open{transform:none;opacity:1;visibility:visible}
+.pop .x{position:absolute;top:12px;right:14px;background:none;border:0;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--muted)}
+.pop h4{font-family:var(--display);font-weight:500;font-size:28px;letter-spacing:.04em;text-transform:uppercase;margin:6px 0 8px}
+.pop p{font-size:14px;color:var(--muted)}
+.pop b{display:block;margin-top:12px;font-size:18px}
+
+/* MODAL */
+dialog{border:0;padding:0;background:transparent;margin:auto;max-width:96vw;color:var(--ink)}
+dialog::backdrop{background:rgba(42,31,27,.88)}
+.m{display:grid;grid-template-columns:auto 300px;gap:24px;align-items:center;background:var(--bg);padding:16px;border-radius:8px}
+@media (max-width:760px){.m{grid-template-columns:1fr;padding:0;background:none}.m-side{display:none}}
+.m video{height:min(84vh,800px);aspect-ratio:9/16;max-width:92vw;background:#000;border-radius:4px;object-fit:contain}
+.m-side .mono{color:var(--gold)}
+.m-side h3{font-family:var(--display);font-weight:500;font-size:30px;text-transform:uppercase;line-height:1.3;letter-spacing:.05em;margin:10px 0 14px}
+.m-side p{color:var(--muted);font-size:15px;line-height:1.85;margin-bottom:16px}
+.m-side .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.m-side .tags span{font-size:12px;border:1px solid var(--line);padding:3px 10px;border-radius:99px}
+.m-nav{display:flex;gap:10px}
+.m-nav button{background:none;border:1px solid var(--line);padding:10px 14px;border-radius:999px;cursor:pointer;font-size:14px}
+.m-nav button:hover{border-color:var(--rose)}
+.m-close{position:fixed;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--bg);font-size:22px;cursor:pointer}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<!-- đếm ngược đầu phim -->
+<div id="leader" aria-hidden="true">
+  <svg viewBox="-260 -260 520 560">
+    <path id="sweep" fill="#b9776c" fill-opacity=".35"/>
+    <circle r="222" fill="none" stroke="#c9b6a4" stroke-width="3"/>
+    <circle r="178" fill="none" stroke="#c9b6a4" stroke-width="3"/>
+    <line x1="-240" x2="240" stroke="#c9b6a4" stroke-width="1.5"/>
+    <line y1="-240" y2="240" stroke="#c9b6a4" stroke-width="1.5"/>
+    <text id="num" class="num" text-anchor="middle" dominant-baseline="central" y="8">3</text>
+    <text class="brand" text-anchor="middle" y="282" data-en="VIDEO EDITOR - SHORT-FORM VIDEO">VIDEO EDITOR - VIDEO NGẮN</text>
+  </svg>
+  <button class="skip" id="skip" data-en="Skip">Bỏ qua</button>
+</div>
+
+<!-- màn dẫn chuyển trang -->
+<div id="chapter" aria-hidden="true"><div><div class="ix" id="ch-ix">02 / 03</div><h2 id="ch-title">Dự án</h2><div class="ln"></div></div></div>
+
+<div class="progress" id="progress"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#gioi-thieu">PortfoliobyChau</a>
+    <div class="tabs">
+      <a href="#gioi-thieu" data-go="0" data-tab="0" data-en="&lt;small&gt;01&lt;/small&gt;About"><small>01</small>Giới thiệu</a>
+      <a href="#du-an" data-go="1" data-tab="1" data-en="&lt;small&gt;02&lt;/small&gt;Projects"><small>02</small>Dự án</a>
+      <a href="#dich-vu" data-go="2" data-tab="2" data-en="&lt;small&gt;03&lt;/small&gt;Services"><small>03</small>Dịch vụ</a>
+    </div>
+    <div class="nav-right">
+      <button class="lang-btn" id="lang-btn" aria-label="Đổi ngôn ngữ / Switch language"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span id="lang-code">EN</span></button>
+      <a class="btn nav-cta" href="#dich-vu" data-go="2" data-contact><span class="full" data-en="Get a quote">Nhận báo giá</span><span class="short" data-en="Quote">Báo giá</span></a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="wrap">
+    <a href="#gioi-thieu" data-go="0" data-tab="0"><small>01</small><span data-en="About">Giới thiệu</span></a>
+    <a href="#du-an" data-go="1" data-tab="1"><small>02</small><span data-en="Projects">Dự án</span></a>
+    <a href="#dich-vu" data-go="2" data-tab="2"><small>03</small><span data-en="Services">Dịch vụ</span></a>
+    <a href="#dich-vu" data-go="2" data-contact><small>04</small><span data-en="Contact">Liên hệ</span></a>
+    <div class="mnav-foot">
+      <div class="seg" role="group" aria-label="Ngôn ngữ / Language"><button data-lang="vi">Tiếng Việt</button><button data-lang="en">English</button></div>
+      <a class="btn" href="https://zalo.me/0768727378" target="_blank" rel="noopener" data-en="Message on Zalo">Nhắn Zalo</a>
+    </div>
+  </div>
+</div>
+
+<!-- 01 GIỚI THIỆU -->
+<main class="view" id="gioi-thieu">
+  <header class="hero">
+    <div class="hero-banner">
+      <div class="thumb-cols" id="thumb-cols" aria-hidden="true"></div>
+      <div class="hero-fade" aria-hidden="true"></div>
+      <div class="wrap hero-title-wrap">
+        <h1 class="display split" id="hero-title" data-en="Shot the video but no time to edit?&lt;br&gt;&lt;em&gt;Hired an editor, still not happy?&lt;/em&gt;">Quay video xong mà không có thời gian edit?<br><em>Thuê edit rồi mà vẫn chưa ưng?</em></h1>
+      </div>
+    </div>
+    <div class="wrap">
+
+      <div class="hero-grid">
+        <figure class="reel" data-r>
+          <div class="reel-frame">
+            <video src="v/v10.mp4" poster="t/v10.jpg" controls playsinline preload="metadata"></video>
+            <span class="reel-tag" data-en="Featured video">Video nổi bật</span>
+          </div>
+          <figcaption class="reel-cap">
+            <div><b data-en="Acne scars that won&#x27;t fade?">Thâm mụn mãi không hết?</b><span data-en="Sample video - Huệ Trảo Beauty Spa">Video mẫu - Huệ Trảo Beauty Spa</span></div>
+            <em>1:30</em>
+          </figcaption>
+        </figure>
+        <div class="intro" data-r>
+          <span class="badge" data-en="Now taking new projects">Đang nhận dự án mới</span>
+          <p class="lead" data-en="I&#x27;m a short-form video editor focused mainly on spas and aesthetic clinics. Every video I edit starts from what your customers care about, because viewers only stop scrolling when they see their own problem in it.">Em là editor video ngắn, tập trung nhiều nhất vào spa và thẩm mỹ viện. Mỗi video em dựng đều bắt đầu từ điều khách hàng của anh chị đang quan tâm, vì người xem chỉ dừng lại khi thấy vấn đề của chính mình trong đó.</p>
+          <div class="ctas"><button class="btn" data-go="1" data-en="View projects">Xem dự án</button><a class="btn btn-line" href="#dich-vu" data-go="2" data-contact data-en="Request a quote">Liên hệ báo giá</a></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section style="padding-top:20px">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat" data-r><b data-count="90" data-suffix=".000đ" data-suffix-en=",000 VND">0</b><span data-en="per video">chi phí mỗi video</span><small data-en="Up to 1 minute 30 seconds">Tối đa 1 phút 30 giây</small></div>
+        <div class="stat" data-r><b data-count="3" data-suffix=" lần" data-suffix-en=" rounds">0</b><span data-en="revision rounds per video">chỉnh sửa cho mỗi video</span><small data-en="Based on your feedback">Theo góp ý của anh chị</small></div>
+        <div class="stat" data-r><b data-count="3" data-suffix=" nền tảng" data-suffix-en=" platforms">0</b><span data-en="ready to post as soon as you receive the file">đăng được ngay sau khi nhận file</span><small>TikTok, Facebook Reels, YouTube Shorts</small></div>
+      </div>
+      <div class="mono" style="margin-top:72px;color:var(--gold)" data-en="Problems I usually help clients solve">Những vấn đề em thường giúp khách hàng giải quyết</div>
+      <div class="why" style="margin-top:24px">
+        <div data-r><span class="n">01</span><h3 data-en="Footage, but no time to edit">Có clip, chưa có thời gian dựng</h3><p data-en="You focus on your clients and your expertise. I take care of selecting shots, cutting, subtitles and finishing the video.">Anh chị tập trung vào khách hàng và chuyên môn. Việc chọn cảnh, cắt ghép, làm phụ đề và hoàn thiện video do em đảm nhận.</p></div>
+        <div data-r><span class="n">02</span><h3 data-en="Edits that miss the mark">Video đã dựng chưa đúng ý</h3><p data-en="Before editing, we discuss the style, colors and message you want to get across. Each video includes up to 3 rounds of revisions.">Trước khi dựng, em trao đổi với anh chị về phong cách, màu sắc và thông điệp anh chị muốn truyền tải. Mỗi video được chỉnh sửa tối đa 3 lần.</p></div>
+        <div data-r><span class="n">03</span><h3 data-en="Viewers scroll away too soon">Chưa giữ được người xem</h3><p data-en="I put the most work into the opening seconds, the part that decides whether viewers keep watching your expert.">Em đầu tư nhiều nhất vào những giây mở đầu, phần quyết định người xem có tiếp tục theo dõi nội dung của chuyên gia hay không.</p></div>
+      </div>
+    </div>
+    <div class="marquee" aria-label="Kỹ thuật dựng"><div class="row" id="mq"></div></div>
+    <div class="wrap">
+      <button class="next" data-go="1"><div><span class="mono" data-en="Next - 02">Tiếp theo - 02</span><span class="display" data-en="Projects">Dự án</span></div><span class="arrow" aria-hidden="true">↓</span></button>
+      <p class="mono next-hint" data-en="Scroll down to continue">Cuộn xuống để chuyển trang</p>
+    </div>
+  </section>
+</main>
+
+<!-- 02 DỰ ÁN -->
+<main class="view" id="du-an">
+  <section class="has-banner">
+    <div class="banner banner-video">
+      <video src="m/social.mp4" poster="m/social.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <div class="wrap banner-inner"><span class="mono" data-en="Chapter 02">Chương 02</span><h2 class="display split" data-en="Projects">Dự án</h2></div>
+    </div>
+    <div class="strip" aria-label="Tất cả video"><div class="track" id="track"></div></div>
+    <p class="strip-hint mono" data-en="Tap any video to watch it in full">Nhấn vào video bất kỳ để xem chi tiết</p>
+    <div class="wrap">
+      <div class="ba-feature" data-r>
+        <video src="m/truoc-sau.mp4" poster="m/truoc-sau.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
+        <div class="ba-text">
+          <div class="mono" data-en="Before - After">Trước - Sau</div>
+          <h3 data-en="Raw footage and the finished edit">Footage gốc và video sau khi dựng</h3>
+          <p data-en="On the left is the phone footage, on the right the same clip after editing, with opening text, subtitles, illustrations and skin color correction.">Bên trái là clip quay bằng điện thoại, bên phải là cùng đoạn clip sau khi em dựng, đã thêm chữ mở đầu, phụ đề, hình minh hoạ và chỉnh màu da.</p>
+        </div>
+      </div>
+      <div class="groups" id="groups" role="tablist"></div>
+      <div id="panels"></div>
+      <p class="price-note" style="margin-top:28px" data-en="These are some sample videos from the beauty industry. I also edit videos for other fields. If you would like to see samples closer to your industry, message me on Zalo &lt;b&gt;0768 727 378&lt;/b&gt;.">Trên đây là một số video mẫu trong lĩnh vực làm đẹp. Em cũng nhận dựng video cho các lĩnh vực khác. Anh chị cần xem mẫu gần với ngành của mình, vui lòng nhắn em qua Zalo <b>0768 727 378</b>.</p>
+      <button class="next" data-go="2"><div><span class="mono" data-en="Next - 03">Tiếp theo - 03</span><span class="display" data-en="Services and pricing">Dịch vụ và bảng giá</span></div><span class="arrow" aria-hidden="true">↓</span></button>
+      <p class="mono next-hint" data-en="Scroll down to continue">Cuộn xuống để chuyển trang</p>
+    </div>
+  </section>
+</main>
+
+<!-- 03 DỊCH VỤ -->
+<main class="view" id="dich-vu">
+  <section class="has-banner">
+    <div class="banner banner-film">
+      <svg class="film-wide" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <defs><linearGradient id="glow2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9b3a3"/><stop offset=".5" stop-color="#d9a28c"/><stop offset="1" stop-color="#a8865a"/></linearGradient></defs>
+        <circle class="orb" cx="860" cy="90" r="90" fill="url(#glow2)" opacity=".3"/>
+        <circle class="orb" cx="300" cy="230" r="60" fill="url(#glow2)" opacity=".22" style="animation-delay:2.5s"/>
+        <path d="M-60 210 C 160 30, 360 30, 520 150 S 840 280, 1000 120 S 1180 10, 1280 110" stroke="#2a1f1b" stroke-width="64" stroke-linecap="round"/>
+        <path class="holes" d="M-60 210 C 160 30, 360 30, 520 150 S 840 280, 1000 120 S 1180 10, 1280 110" stroke="#f5eee5" stroke-width="54" stroke-dasharray="5 11"/>
+        <path d="M-60 210 C 160 30, 360 30, 520 150 S 840 280, 1000 120 S 1180 10, 1280 110" stroke="#2a1f1b" stroke-width="38"/>
+        <path class="frames" d="M-60 210 C 160 30, 360 30, 520 150 S 840 280, 1000 120 S 1180 10, 1280 110" stroke="url(#glow2)" stroke-width="32" stroke-dasharray="34 10"/>
+        <g class="sparkle"><path d="M640 60l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#b9776c"/><path d="M1080 240l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#a8865a"/><path d="M150 70l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#a8865a"/></g>
+      </svg>
+      <div class="banner-fade"></div>
+      <div class="wrap banner-inner"><span class="mono" data-en="Chapter 03">Chương 03</span><h2 class="display split" data-en="Services">Dịch vụ</h2></div>
+    </div>
+    <div class="wrap">
+      <div class="svc" id="svc" data-r></div>
+      <div class="mono" style="margin-top:72px;color:var(--gold)" data-en="Pricing">Bảng giá</div>
+      <div class="prices">
+        <div class="price-card" data-r>
+          <h3 data-en="Single video">Video lẻ</h3>
+          <div class="amt" data-en="90,000 VND&lt;small&gt;/ video&lt;/small&gt;">90.000đ<small>/ video</small></div>
+          <ul><li data-en="Up to 1 minute 30 seconds">Thời lượng tối đa 1 phút 30 giây</li><li data-en="1,000 VND for each extra second">Phụ thu 1.000đ cho mỗi giây vượt</li><li data-en="Up to 3 rounds of revisions">Chỉnh sửa tối đa 3 lần</li></ul>
+        </div>
+        <div class="price-card hot" data-r>
+          <span class="tag-hot" data-en="Save 20,000 VND">Tiết kiệm 20.000đ</span>
+          <h3 data-en="3-video package">Gói 3 video</h3>
+          <div class="amt" data-en="250,000 VND&lt;small&gt;/ 3 videos&lt;/small&gt;">250.000đ<small>/ 3 video</small></div>
+          <ul><li data-en="Each video up to 1 minute 30 seconds">Mỗi video tối đa 1 phút 30 giây</li><li data-en="1,000 VND for each extra second">Phụ thu 1.000đ cho mỗi giây vượt</li><li data-en="Up to 3 rounds of revisions per video">Chỉnh sửa tối đa 3 lần mỗi video</li></ul>
+        </div>
+      </div>
+      <div class="terms">
+        <div class="term" data-r><span class="n" data-en="Deposit">Đặt cọc</span><b>30%</b><p data-en="A 30% deposit of the order value is required when ordering.">Anh chị đặt cọc 30% giá trị đơn hàng khi đặt hàng.</p></div>
+        <div class="term" data-r><span class="n" data-en="Turnaround">Thời gian hoàn thành</span><b data-en="2 days">2 ngày</b><p data-en="Videos are completed within 2 days of ordering and paying the deposit.">Video hoàn thành trong 2 ngày kể từ khi đặt hàng và chuyển cọc.</p></div>
+        <div class="term" data-r><span class="n" data-en="Per order">Mỗi lần đặt</span><b data-en="3 videos">3 video</b><p data-en="I take up to 3 videos per order to keep the quality of each one high.">Em nhận tối đa 3 video mỗi lần để đảm bảo chất lượng từng video.</p></div>
+      </div>
+      <p class="price-note" data-en="Example: a 1 minute 45 second video runs 15 seconds over, so the cost is &lt;b&gt;90,000 VND + 15,000 VND = 105,000 VND&lt;/b&gt;.">Ví dụ: video dài 1 phút 45 giây vượt 15 giây, chi phí là <b>90.000đ + 15.000đ = 105.000đ</b>.</p>
+      <div class="rev-notes" data-r>
+        <div class="mono" data-en="Revision policy">Chính sách chỉnh sửa</div>
+        <ul>
+          <li data-en="Each video includes 3 free revision rounds. From the 4th round, each revision costs &lt;b&gt;30,000 VND&lt;/b&gt;.">Mỗi video được chỉnh sửa miễn phí 3 lần. Từ lần thứ 4, phí chỉnh sửa là <b>30.000đ/lần</b>.</li>
+          <li data-en="Mistakes on my side are fixed for free and do not count toward your revision rounds.">Lỗi phát sinh từ phía em được sửa miễn phí và không tính vào số lần chỉnh sửa.</li>
+          <li data-en="Each revision round is one list of feedback sent together. Several separate messages in the same session still count as 1 round, keeping feedback clear and easy to track.">Mỗi lần sửa là một danh sách góp ý gửi cùng lúc. Nhiều tin nhắn rời trong cùng một buổi vẫn tính là 1 lần, để anh chị góp ý gọn và dễ theo dõi.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="contact" id="lien-he">
+    <div class="ct-band" aria-hidden="true"><div class="ct-row" id="ct-row"></div></div>
+    <div class="wrap ct-grid">
+      <div class="ct-text">
+        <div class="mono ct-label" data-en="Contact via Zalo">Liên hệ qua Zalo</div>
+        <h2 class="display split" data-en="Already have footage?&lt;br&gt;&lt;em&gt;Let me edit it for you.&lt;/em&gt;">Anh chị đã có clip?<br><em>Hãy để em dựng giúp.</em></h2>
+        <p class="ct-lead" data-en="Feel free to send a clip when you get in touch. I will review it and suggest an editing direction before quoting.">Anh chị có thể gửi kèm một đoạn clip khi liên hệ. Em sẽ xem và đề xuất hướng dựng trước khi báo giá.</p>
+        <a class="ct-phone" href="https://zalo.me/0768727378" target="_blank" rel="noopener" aria-label="Nhắn Zalo 0768 727 378">0768 727 378</a>
+        <div class="ct-actions">
+          <a class="ct-btn ct-btn-fill" href="https://zalo.me/0768727378" target="_blank" rel="noopener" data-en="Message on Zalo">Nhắn Zalo</a>
+        </div>
+      </div>
+      <div class="fan" aria-hidden="true">
+        <img src="t/v11.jpg" alt=""><img src="t/v10.jpg" alt=""><img src="t/v1.jpg" alt="">
+      </div>
+    </div>
+    <div class="ct-ghost" aria-hidden="true" data-en="Contact">Liên hệ</div>
+  </section>
+  <footer><div class="wrap"><span>© 2026 PortfoliobyChau</span><span>Zalo: 0768 727 378</span></div></footer>
+</main>
+
+<button class="float" id="float" aria-expanded="false" aria-controls="pop">Zalo</button>
+<div class="pop" id="pop" role="dialog" aria-label="Liên hệ qua Zalo">
+  <button class="x" id="pop-x" data-en="Close">Đóng</button>
+  <div class="mono">Zalo</div>
+  <h4 data-en="Consultation and quotes">Tư vấn và báo giá</h4>
+  <p data-en="Message me on Zalo and I will reply with a quote based on your needs.">Anh chị nhắn tin qua Zalo, em sẽ phản hồi và gửi báo giá theo nhu cầu.</p>
+  <b>0768 727 378</b>
+  <a class="btn" style="margin-top:14px" href="https://zalo.me/0768727378" target="_blank" rel="noopener" data-en="Open Zalo">Mở Zalo</a>
+</div>
+
+<dialog id="modal" aria-label="Xem video">
+  <button class="m-close" id="m-close" aria-label="Đóng">×</button>
+  <div class="m">
+    <video id="m-video" controls playsinline></video>
+    <div class="m-side">
+      <div class="mono" id="m-group"></div>
+      <h3 id="m-title"></h3>
+      <p id="m-desc"></p>
+      <div class="tags" id="m-tags"></div>
+      <div class="m-nav"><button id="m-prev" data-en="← Previous">← Video trước</button><button id="m-next" data-en="Next →">Video sau →</button></div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const V = {
+  v10:{t:"Thâm mụn mãi không hết?", k:"Mở đầu bằng cận cảnh da", g:"truoc-sau", dur:"1:30", tags:["Cận cảnh da","Phụ đề nhấn chữ"], d:"Video mở đầu bằng cận cảnh làn da cùng câu hỏi quen thuộc của người bị thâm mụn, giúp người xem nhận ra vấn đề của chính mình ngay từ giây đầu."},
+  v11:{t:"Đốm nâu", k:"Hình ảnh thực tế làm điểm nhấn", g:"truoc-sau", dur:"1:04", tags:["Chữ hiệu ứng","Cận cảnh da"], d:"Hình ảnh da trước điều trị được đặt lên đầu, kết hợp chữ hiệu ứng vàng đen để tạo điểm nhấn trước khi chuyên gia giải thích."},
+  v9:{t:"Xử lý nám không cần nghỉ dưỡng", k:"Phiên bản 44 giây cho quảng cáo", g:"truoc-sau", dur:"0:44", tags:["Nhãn trước và sau","Bản rút gọn"], d:"Phiên bản rút gọn dưới 45 giây, có nhãn Trước rõ ràng và mở đầu bằng mối lo phải nghỉ dưỡng khi điều trị nám. Phù hợp để chạy quảng cáo."},
+  v1:{t:"Da nhiễm corticoid", k:"Biểu tượng cảnh báo từ giây đầu", g:"chuyen-gia", dur:"1:31", tags:["Biểu tượng cảnh báo","Thanh tiêu đề"], d:"Với chủ đề da nhiễm corticoid, biểu tượng cảnh báo và thanh tiêu đề được đặt ngay từ giây đầu để người xem dừng lại."},
+  v2:{t:"Nám mảng nội tiết", k:"Chia nội dung theo từng giai đoạn", g:"chuyen-gia", dur:"1:10", tags:["Chữ hiệu ứng","Tiêu đề từng phần"], d:"Nội dung được chia theo từng giai đoạn của nám, mỗi phần có tiêu đề riêng để người xem dễ theo dõi trong suốt hơn 1 phút."},
+  v3:{t:"Nám mảng nội tiết, bản quảng cáo", k:"Bổ sung đoạn kết kêu gọi liên hệ", g:"chuyen-gia", dur:"1:22", tags:["Đoạn kết kêu gọi","Bản quảng cáo"], d:"Cùng nội dung với video trên, bổ sung đoạn kết có số điện thoại của spa. Từ một lần quay, spa có thêm một phiên bản riêng để chạy quảng cáo."},
+  v4:{t:"Tăng sắc tố và nám", k:"Logo xuất hiện xuyên suốt", g:"chuyen-gia", dur:"1:33", tags:["Chữ hiệu ứng","Logo thương hiệu"], d:"Tiêu đề chữ đỏ trắng tạo điểm nhấn ở phần mở đầu. Logo spa được giữ ở góc trên trong suốt video để tăng nhận diện thương hiệu."},
+  v5:{t:"Chữa lành làn da không xâm lấn", k:"Icon minh hoạ theo lời chuyên gia", g:"chuyen-gia", dur:"1:15", tags:["Icon minh hoạ","Phụ đề nhấn chữ"], d:"Các icon về nỗi lo đau, sợ laser, sợ tổn thương xuất hiện đúng thời điểm chuyên gia nhắc đến, giúp khách hàng cảm thấy được thấu hiểu."},
+  v6:{t:"Lỗ chân lông to", k:"Nhịp dựng nhanh, chữ nổi bật", g:"chuyen-gia", dur:"1:05", tags:["Chữ hiệu ứng","Phụ đề"], d:"Với một chủ đề quen thuộc, video được dựng với nhịp nhanh hơn và chữ hiệu ứng nổi bật để giữ sự chú ý của người xem."},
+  v7:{t:"Mụn có tái phát không?", k:"Giữ nhịp cho video hơn 2 phút", g:"chuyen-gia", dur:"2:06", tags:["Hiệu ứng mở đầu","Chuyển cảnh"], d:"Video có thời lượng hơn 2 phút. Hiệu ứng ánh sáng ở phần mở đầu cùng chuyển cảnh và phụ đề đều đặn giúp người xem theo dõi đến cuối."},
+  v8:{t:"Nghe lời bạn bè, dùng đồ bậy", k:"Tiết chế hiệu ứng cho nội dung kể chuyện", g:"chuyen-gia", dur:"1:14", tags:["Thanh tiêu đề","Phụ đề kể chuyện"], d:"Video kể lại một câu chuyện thực tế nên hiệu ứng được tiết chế, phụ đề gọn để người xem tập trung vào lời kể."}
+};
+const ORDER = ["v10","v11","v9","v1","v2","v3","v4","v5","v6","v7","v8"];
+const GROUPS = [
+  {id:"truoc-sau", title:"Trước và sau", topics:"Thâm mụn - Đốm nâu - Nám", note:"Video mẫu có hình ảnh làn da thực tế trước điều trị. Nhấn vào video để xem đầy đủ, di chuột lên để xem nhanh."},
+  {id:"chuyen-gia", title:"Chuyên gia chia sẻ", topics:"Corticoid - Nám - Sắc tố - Lỗ chân lông - Mụn", note:"Video mẫu dạng chuyên gia chia sẻ kiến thức trước camera. Em đảm nhận phần chữ, phụ đề, icon minh hoạ và nhịp dựng để nội dung dễ theo dõi đến cuối."}
+];
+const SVC = [
+  {k:"Theo video", t:"Dựng video", p:"Dựng hoàn chỉnh từng video từ clip anh chị cung cấp, sẵn sàng đăng lên TikTok, Facebook Reels và YouTube Shorts.", li:["Video 9:16, chất lượng Full HD","Chữ mở đầu và phụ đề tiếng Việt","Chỉnh màu da, logo, nhạc nền","Chỉnh sửa tối đa 3 lần"]}
+];
+const VIEWS = [{id:"gioi-thieu", t:"Giới thiệu"},{id:"du-an", t:"Dự án"},{id:"dich-vu", t:"Dịch vụ"}];
+const poster = id => `t/${id}.jpg`, src = id => `v/${id}.mp4`;
+
+/* ---------- song ngữ ---------- */
+let lang = "vi";
+try { lang = localStorage.getItem("pf-lang") === "en" ? "en" : "vi"; } catch (e) {}
+const L = (vi, en) => lang === "en" ? en : vi;
+const EN = {
+  V:{
+    v10:{t:"Acne scars that won't fade?", k:"Opens with a skin close-up", tags:["Skin close-up","Highlighted subtitles"], d:"The video opens with a close-up of the skin and a question everyone with acne scars has asked, so viewers recognize their own problem from the first second."},
+    v11:{t:"Brown spots", k:"Real footage as the focal point", tags:["Animated text","Skin close-up"], d:"Footage of the skin before treatment comes first, paired with yellow and black animated text to create impact before the expert explains."},
+    v9:{t:"Melasma treatment without downtime", k:"44-second version for ads", tags:["Before and after labels","Cut-down version"], d:"A cut-down version under 45 seconds with a clear Before label, opening with the worry about downtime during melasma treatment. Suited for running ads."},
+    v1:{t:"Corticoid-damaged skin", k:"Warning sign from the first second", tags:["Warning icon","Title bar"], d:"For the topic of corticoid-damaged skin, a warning icon and title bar appear in the very first second to make viewers stop."},
+    v2:{t:"Hormonal melasma", k:"Content split into stages", tags:["Animated text","Section titles"], d:"The content is divided by each stage of melasma, each with its own title, so viewers can follow along for over a minute."},
+    v3:{t:"Hormonal melasma, ad version", k:"Adds a closing call to action", tags:["Closing call to action","Ad version"], d:"Same content as the video above, with a closing segment showing the spa's phone number. One shoot gives the spa an extra version for ads."},
+    v4:{t:"Hyperpigmentation and melasma", k:"Logo visible throughout", tags:["Animated text","Brand logo"], d:"Red and white title text grabs attention at the start. The spa's logo stays in the top corner for the whole video to build brand recognition."},
+    v5:{t:"Non-invasive skin healing", k:"Icons that follow the expert's words", tags:["Illustrative icons","Highlighted subtitles"], d:"Icons for fear of pain, of lasers and of skin damage appear exactly when the expert mentions them, so customers feel understood."},
+    v6:{t:"Enlarged pores", k:"Fast pacing, bold text", tags:["Animated text","Subtitles"], d:"For a familiar topic, the video is edited at a faster pace with bold animated text to hold viewers' attention."},
+    v7:{t:"Will acne come back?", k:"Keeping pace over 2 minutes", tags:["Opening effect","Transitions"], d:"A video over 2 minutes long. A light effect at the opening plus steady transitions and subtitles help viewers watch to the end."},
+    v8:{t:"Listening to friends, using bad products", k:"Restrained effects for storytelling", tags:["Title bar","Story subtitles"], d:"The video retells a real story, so effects are kept minimal and subtitles compact to keep viewers focused on the narrative."}
+  },
+  GROUPS:[
+    {title:"Before and after", topics:"Acne scars - Brown spots - Melasma", note:"Sample videos showing real skin before treatment. Click a video to watch it in full, hover to preview."},
+    {title:"Expert talks", topics:"Corticoid - Melasma - Pigmentation - Pores - Acne", note:"Sample videos of experts sharing knowledge on camera. I handle the text, subtitles, icons and pacing so the content is easy to follow to the end."}
+  ],
+  SVC:[{k:"Per video", t:"Video editing", p:"Complete editing of each video from the footage you provide, ready to post on TikTok, Facebook Reels and YouTube Shorts.", li:["9:16 video, Full HD quality","Opening text and Vietnamese subtitles","Skin color correction, logo, background music","Up to 3 rounds of revisions"]}],
+  VIEWS:["About","Projects","Services"],
+  MQ:["Opening text","Vietnamese subtitles","Before and after","Color correction","Illustrative icons","Section titles","Closing call to action","Brand logo"]
+};
+const VI = JSON.parse(JSON.stringify({V, GROUPS, SVC, VIEWS:VIEWS.map(v => v.t)}));
+let MQ;
+const MQ_VI = ["Chữ mở đầu","Phụ đề tiếng Việt","Trước và sau","Chỉnh màu","Icon minh hoạ","Tiêu đề từng phần","Đoạn kết kêu gọi","Logo thương hiệu"];
+function swapData(){
+  const src = lang === "en" ? EN : VI;
+  for (const id in V) Object.assign(V[id], src.V[id]);
+  GROUPS.forEach((g, i) => Object.assign(g, src.GROUPS[i]));
+  SVC.forEach((s, i) => Object.assign(s, src.SVC[i]));
+  VIEWS.forEach((v, i) => v.t = src.VIEWS[i]);
+  MQ = lang === "en" ? EN.MQ : MQ_VI;
+}
+swapData();
+document.querySelectorAll("[data-en]").forEach(el => { el.dataset.vi = el.innerHTML; if (lang === "en") el.innerHTML = el.dataset.en; });
+document.documentElement.lang = lang;
+
+/* ---------- tách chữ để làm hiệu ứng nhảy lên ---------- */
+function split(el){
+  let i = 0;
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(word => {
+        if (!word) return;
+        if (/^\s+$/.test(word)) { frag.append(" "); return; }
+        const w = document.createElement("span"); w.className = "w";
+        [...word].forEach(ch => { const c = document.createElement("span"); c.className = "c"; c.textContent = ch; c.style.transitionDelay = (i++ * 28) + "ms"; w.append(c); });
+        frag.append(w);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1 && n.tagName !== "BR") walk(n);
+  });
+  el.setAttribute("aria-label", el.textContent.replace(/\s+/g," ").trim());
+  walk(el);
+}
+document.querySelectorAll(".split").forEach(split);
+
+/* ---------- hiện dần khi cuộn ---------- */
+const io = new IntersectionObserver(es => es.forEach(en => {
+  if (!en.isIntersecting) return;
+  const el = en.target;
+  if (el.id === "hero-title" && !leaderDone) return;
+  el.classList.add("in"); io.unobserve(el);
+  el.querySelectorAll?.("[data-count]").forEach(countUp);
+  if (el.matches("[data-count]")) countUp(el);
+}), {threshold:.15});
+document.querySelectorAll("[data-r], .split").forEach(el => io.observe(el));
+
+const suffixOf = el => (lang === "en" && el.dataset.suffixEn != null) ? el.dataset.suffixEn : (el.dataset.suffix || "");
+function countUp(el){
+  el.dataset.done = 1;
+  const to = +el.dataset.count, suf = suffixOf(el), t0 = performance.now(), dur = reduce ? 0 : 1400;
+  const tick = now => { const p = dur ? Math.min(1,(now - t0)/dur) : 1; el.textContent = Math.round(to * (1 - Math.pow(1-p,3))) + suf; if (p < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+
+/* ---------- thanh tiến độ ---------- */
+const bar = document.getElementById("progress");
+addEventListener("scroll", () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${h > 0 ? scrollY / h : 0})`;
+}, {passive:true});
+
+/* ---------- đếm ngược đầu phim ---------- */
+let leaderDone = false;
+const leader = document.getElementById("leader"), sweep = document.getElementById("sweep"), num = document.getElementById("num");
+function sector(p){
+  if (p <= 0) return "";
+  if (p >= 1) return "M0 0 m-222 0 a222 222 0 1 0 444 0 a222 222 0 1 0 -444 0";
+  const a = p * 2 * Math.PI - Math.PI/2, x = 222*Math.cos(a), y = 222*Math.sin(a);
+  return `M0 0 L0 -222 A222 222 0 ${p > .5 ? 1 : 0} 1 ${x.toFixed(1)} ${y.toFixed(1)} Z`;
+}
+function endLeader(){
+  if (leaderDone) return; leaderDone = true;
+  leader.classList.add("done");
+  const h = document.getElementById("hero-title");
+  setTimeout(() => h.classList.add("in"), 150);
+}
+if (reduce) endLeader(); else {
+  const t0 = performance.now(), STEP = 900;
+  const loop = now => {
+    if (leaderDone) return;
+    const e = now - t0, k = Math.floor(e / STEP);
+    if (k >= 3) { endLeader(); return; }
+    num.textContent = 3 - k; sweep.setAttribute("d", sector((e % STEP) / STEP));
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+document.getElementById("skip").onclick = endLeader;
+
+/* ---------- chuyển trang có màn dẫn ---------- */
+const chapter = document.getElementById("chapter"), chIx = document.getElementById("ch-ix"), chTitle = document.getElementById("ch-title");
+let cur = -1, busy = false;
+function setTabs(i){ document.querySelectorAll("[data-tab]").forEach(a => a.classList.toggle("on", +a.dataset.tab === i)); }
+function show(i, scrollTo){
+  document.querySelectorAll(".view").forEach((v, k) => v.classList.toggle("on", k === i));
+  cur = i; setTabs(i); scrollTo(0, 0);
+  if (location.hash !== "#" + VIEWS[i].id) history.replaceState(null, "", "#" + VIEWS[i].id);
+  bar.style.transform = "scaleX(0)";
+}
+function go(i, then){
+  if (busy || i === cur || i < 0 || i >= VIEWS.length) { then && then(); return; }
+  if (reduce || cur < 0) { show(i, scrollTo); then && then(); return; }
+  busy = true;
+  chIx.textContent = `0${i+1} / 0${VIEWS.length}`;
+  chTitle.textContent = VIEWS[i].t;
+  chTitle.classList.remove("in"); delete chTitle.dataset.done;
+  chTitle.className = ""; chTitle.textContent = VIEWS[i].t; split(chTitle); chTitle.classList.add("split");
+  chapter.className = "show";
+  setTimeout(() => chTitle.classList.add("in"), 250);
+  setTimeout(() => show(i, scrollTo), 750);
+  setTimeout(() => {
+    chapter.className = "leave";
+    requestAnimationFrame(() => requestAnimationFrame(() => chapter.className = "leave up"));
+    setTimeout(() => { chapter.className = ""; busy = false; then && then(); }, 850);
+  }, 1900);
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-go]"); if (!a) return;
+  e.preventDefault(); closeMenu();
+  const contact = a.hasAttribute("data-contact");
+  go(+a.dataset.go, () => contact && document.getElementById("lien-he").scrollIntoView({behavior:"smooth"}));
+  if (contact && +a.dataset.go === cur) document.getElementById("lien-he").scrollIntoView({behavior:"smooth"});
+});
+addEventListener("hashchange", () => { const i = VIEWS.findIndex(v => "#" + v.id === location.hash); if (i >= 0 && i !== cur) go(i); });
+const start = Math.max(0, VIEWS.findIndex(v => "#" + v.id === location.hash));
+show(start, scrollTo);
+
+/* cuộn quá cuối trang → sang trang kế */
+let push = 0, pushT;
+const atBottom = () => innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+function nudge(d){
+  if (busy || modal.open || cur >= VIEWS.length - 1) return;
+  if (!atBottom() || d <= 0) { push = 0; return; }
+  push += d; clearTimeout(pushT); pushT = setTimeout(() => push = 0, 600);
+  if (push > 260) { push = 0; go(cur + 1); }
+}
+addEventListener("wheel", e => nudge(e.deltaY), {passive:true});
+let ty = 0;
+addEventListener("touchstart", e => ty = e.touches[0].clientY, {passive:true});
+addEventListener("touchmove", e => { const y = e.touches[0].clientY; nudge((ty - y) * 1.5); ty = y; }, {passive:true});
+
+/* ---------- marquee kỹ thuật ---------- */
+function renderMQ(){
+  document.getElementById("mq").innerHTML = [...MQ, ...MQ].map(t => `<span>${t}<i>✦</i></span>`).join("");
+  document.getElementById("ct-row").innerHTML = Array(8).fill(`<span>${L("Liên hệ báo giá","Request a quote")}<i>✦</i></span><span>Zalo 0768 727 378<i>✦</i></span>`).join("");
+}
+renderMQ();
+
+/* ---------- cột thumbnail trôi ở banner trang chủ ---------- */
+(function(){
+  const cols = [[0,3,6,9],[1,4,7,10],[2,5,8,0],[3,6,9,1],[4,7,10,2],[5,8,1,4]];
+  document.getElementById("thumb-cols").innerHTML = cols.map((c, i) => {
+    const imgs = [...c, ...c].map(k => `<img src="${poster(ORDER[k])}" alt="" loading="lazy">`).join("");
+    return `<div class="tcol${i % 2 ? " rev" : ""}" style="--dur:${34 + i * 5}s"><div class="tcol-in">${imgs}</div></div>`;
+  }).join("");
+})();
+
+/* ---------- dải phim ---------- */
+function renderTrack(){
+  document.getElementById("track").innerHTML = [...ORDER, ...ORDER].map((id, i) =>
+    `<button class="frame" data-play="${id}" ${i >= ORDER.length ? 'tabindex="-1" aria-hidden="true"' : `aria-label="${L("Xem","Watch")} ${V[id].t}"`}><img src="${poster(id)}" alt="" loading="lazy"></button>`).join("");
+}
+renderTrack();
+
+/* ---------- nhóm dự án ---------- */
+const groupsEl = document.getElementById("groups"), panelsEl = document.getElementById("panels");
+function renderGroups(){
+const openId = groupsEl.querySelector('[aria-expanded="true"]')?.dataset.group;
+groupsEl.innerHTML = GROUPS.map(g => {
+  const n = ORDER.filter(id => V[id].g === g.id).length;
+  return `<button class="gchip" role="tab" aria-expanded="false" aria-controls="panel-${g.id}" data-group="${g.id}">${g.title}<span>${n}</span></button>`;
+}).join("");
+panelsEl.innerHTML = GROUPS.map(g => {
+  const ids = ORDER.filter(id => V[id].g === g.id);
+  return `<div class="panel" id="panel-${g.id}" hidden>
+    <div class="panel-head"><h4>${g.title}</h4><p>${g.note}</p></div>
+    <div class="grid">${ids.map(id => `
+      <button class="card" data-play="${id}" aria-label="${L("Xem","Watch")} ${V[id].t}">
+        <div class="thumb"><img src="${poster(id)}" alt="" loading="lazy"><video muted loop playsinline preload="none" data-src="${src(id)}"></video><span class="dur">${V[id].dur}</span></div>
+        <h5>${V[id].t}</h5><span class="k">${V[id].k}</span><div class="tags">${V[id].tags.slice(0,2).map(t => `<span>${t}</span>`).join("")}</div>
+      </button>`).join("")}</div></div>`;
+}).join("");
+
+if (openId) openGroup(openId);
+}
+function openGroup(id){
+  groupsEl.querySelectorAll(".group").forEach(b => {
+    const on = b.dataset.group === id;
+    b.setAttribute("aria-expanded", on);
+    document.getElementById("panel-" + b.dataset.group).hidden = !on;
+  });
+}
+groupsEl.addEventListener("click", e => { const b = e.target.closest(".gchip"); if (b) openGroup(b.dataset.group); });
+renderGroups();
+openGroup("chuyen-gia");
+panelsEl.addEventListener("pointerover", e => {
+  const c = e.target.closest(".card"); if (!c || c.classList.contains("playing") || e.pointerType === "touch") return;
+  const v = c.querySelector("video"); if (!v.src) v.src = v.dataset.src;
+  v.currentTime = 0; v.play().then(() => c.classList.add("playing")).catch(() => {});
+});
+panelsEl.addEventListener("pointerout", e => {
+  const c = e.target.closest(".card"); if (!c || c.contains(e.relatedTarget)) return;
+  c.classList.remove("playing"); c.querySelector("video").pause();
+});
+
+/* ---------- dịch vụ ---------- */
+const svcEl = document.getElementById("svc");
+function renderSvc(){
+const openIdx = [...svcEl.querySelectorAll('.svc-btn[aria-expanded="true"]')].map(b => b.getAttribute("aria-controls"));
+svcEl.innerHTML = SVC.map((s, i) => `<div class="svc-row">
+  <button class="svc-btn" aria-expanded="false" aria-controls="svc-${i}"><span class="mono">${s.k}</span><span class="display">${s.t}</span><span class="plus" aria-hidden="true">+</span></button>
+  <div class="svc-body" id="svc-${i}" hidden><span></span><div>
+    <div><p>${s.p}</p><a class="btn" href="#lien-he" onclick="event.preventDefault();document.getElementById('lien-he').scrollIntoView({behavior:'smooth'})">${L("Nhận báo giá","Get a quote")}</a></div>
+    <ul>${s.li.map(l => `<li>${l}</li>`).join("")}</ul></div></div></div>`).join("");
+openIdx.forEach(id => { const b = svcEl.querySelector(`[aria-controls="${id}"]`); if (b) { b.setAttribute("aria-expanded", true); document.getElementById(id).hidden = false; } });
+}
+renderSvc();
+svcEl.addEventListener("click", e => {
+  const b = e.target.closest(".svc-btn"); if (!b) return;
+  const open = b.getAttribute("aria-expanded") === "true";
+  b.setAttribute("aria-expanded", !open); document.getElementById(b.getAttribute("aria-controls")).hidden = open;
+});
+svcEl.querySelector(".svc-btn").click();
+
+/* ---------- popup Zalo ---------- */
+const pop = document.getElementById("pop"), fl = document.getElementById("float");
+fl.onclick = () => { const o = pop.classList.toggle("open"); fl.setAttribute("aria-expanded", o); };
+document.getElementById("pop-x").onclick = () => { pop.classList.remove("open"); fl.setAttribute("aria-expanded", false); };
+
+/* ---------- trình phát video ---------- */
+const modal = document.getElementById("modal"), mv = document.getElementById("m-video");
+let vi = 0;
+function play(id){
+  vi = ORDER.indexOf(id); const v = V[id];
+  mv.src = src(id); mv.poster = poster(id);
+  document.getElementById("m-group").textContent = GROUPS.find(g => g.id === v.g).title + " - " + v.dur;
+  document.getElementById("m-title").textContent = v.t;
+  document.getElementById("m-desc").innerHTML = `<b style="color:var(--ink);display:block;margin-bottom:6px">${v.k}</b>${v.d}`;
+  document.getElementById("m-tags").innerHTML = v.tags.map(t => `<span>${t}</span>`).join("");
+  if (!modal.open) modal.showModal();
+  mv.play().catch(() => {});
+}
+document.addEventListener("click", e => { const t = e.target.closest("[data-play]"); if (t) play(t.dataset.play); });
+document.getElementById("m-close").onclick = () => modal.close();
+document.getElementById("m-prev").onclick = () => play(ORDER[(vi - 1 + ORDER.length) % ORDER.length]);
+document.getElementById("m-next").onclick = () => play(ORDER[(vi + 1) % ORDER.length]);
+modal.addEventListener("close", () => { mv.pause(); mv.removeAttribute("src"); mv.load(); });
+modal.addEventListener("click", e => { if (e.target === modal) modal.close(); });
+
+/* ---------- menu điện thoại ---------- */
+const burger = document.getElementById("burger"), mnav = document.getElementById("mnav");
+function closeMenu(){ mnav.classList.remove("open"); mnav.setAttribute("aria-hidden", true); burger.setAttribute("aria-expanded", false); document.body.style.overflow = ""; }
+burger.onclick = () => {
+  const o = !mnav.classList.contains("open");
+  mnav.classList.toggle("open", o); mnav.setAttribute("aria-hidden", !o); burger.setAttribute("aria-expanded", o);
+  document.body.style.overflow = o ? "hidden" : "";
+};
+addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+addEventListener("resize", () => { if (innerWidth > 900) closeMenu(); });
+
+/* ---------- đổi ngôn ngữ ---------- */
+function paintLangUI(){
+  document.getElementById("lang-code").textContent = lang === "en" ? "VI" : "EN";
+  document.querySelectorAll(".seg button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+}
+function setLang(l){
+  if (l === lang) return;
+  lang = l; try { localStorage.setItem("pf-lang", l); } catch (e) {}
+  document.documentElement.lang = l;
+  swapData();
+  document.querySelectorAll("[data-en]").forEach(el => {
+    const wasIn = el.classList.contains("in");
+    el.innerHTML = l === "en" ? el.dataset.en : el.dataset.vi;
+    if (el.classList.contains("split")) { split(el); if (wasIn) el.classList.add("in"); }
+  });
+  document.querySelectorAll("[data-count][data-done]").forEach(el => el.textContent = el.dataset.count + suffixOf(el));
+  renderMQ(); renderTrack(); renderGroups(); renderSvc(); paintLangUI();
+  if (modal.open) { const v = V[ORDER[vi]]; document.getElementById("m-group").textContent = GROUPS.find(g => g.id === v.g).title + " - " + v.dur; document.getElementById("m-title").textContent = v.t; document.getElementById("m-desc").innerHTML = `<b style="color:var(--ink);display:block;margin-bottom:6px">${v.k}</b>${v.d}`; document.getElementById("m-tags").innerHTML = v.tags.map(t => `<span>${t}</span>`).join(""); }
+}
+document.getElementById("lang-btn").onclick = () => setLang(lang === "en" ? "vi" : "en");
+document.querySelectorAll(".seg button").forEach(b => b.onclick = () => setLang(b.dataset.lang));
+paintLangUI();
+</script>
+</body>
+</html>
