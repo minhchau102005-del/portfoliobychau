@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Layout: đếm ngược đầu phim → 3 trang (Giới thiệu / Dự án / Dịch vụ), mỗi lần chuyển trang có màn dẫn "0X / 03". Tông kem – hồng đất – nâu espresso cho ngành beauty. */
+/* Layout: đếm ngược đầu phim → 3 trang (Giới thiệu / Dự án / Dịch vụ), mỗi lần chuyển trang có màn dẫn "0X / 03". Tông kem – hồng đất – nâu espresso. */
 :root{
   --bg:#f5eee5;        /* kem */
   --panel:#fbf7f1;     /* kem sáng */
@@ -178,8 +178,8 @@ section{padding:80px 0}
 .gchip{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:600;font-size:15px;color:var(--ink);transition:background .2s,color .2s,border-color .2s}
 .gchip span{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted)}
 .gchip:hover{border-color:var(--rose)}
-.gchip[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.gchip[aria-expanded="true"] span{color:#e9b3a3}
+.gchip[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gchip[aria-selected="true"] span{color:#e9b3a3}
 .twinkle path{transform-box:fill-box;transform-origin:center;animation:tw 2.4s ease-in-out infinite}
 .twinkle path:nth-child(2){animation-delay:.8s}.twinkle path:nth-child(3){animation-delay:1.6s}
 @keyframes tw{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1);opacity:1}}
@@ -356,7 +356,7 @@ section{padding:80px 0}
 .group h3{font-size:clamp(38px,4.4vw,54px);line-height:1.15}
 .group .topics{font-size:15px;line-height:1.7;color:#e6d8cc;max-width:44ch}
 .group .go{font-size:14px;font-weight:600;color:#f0c3b3}
-.panel{margin-top:16px;border:1px solid var(--line);border-radius:6px;padding:26px;background:var(--panel)}
+.panel{margin-top:16px;scroll-margin-top:90px;border:1px solid var(--line);border-radius:6px;padding:26px;background:var(--panel)}
 .panel[hidden]{display:none}
 .panel-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;margin-bottom:22px}
 .panel-head h4{font-family:var(--display);font-weight:500;font-size:34px;text-transform:uppercase;letter-spacing:.04em}
@@ -370,6 +370,14 @@ section{padding:80px 0}
 .thumb video{opacity:0;transition:opacity .25s}
 .card.playing .thumb video{opacity:1}
 .thumb .dur{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:11px;font-weight:600;background:rgba(42,31,27,.75);color:#f5eee5;padding:3px 7px;border-radius:2px;z-index:2;font-variant-numeric:tabular-nums}
+.card .cat{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);line-height:1.4;margin-bottom:-6px}
+.card.wide{grid-column:span 2}
+.card.wide .thumb{aspect-ratio:auto;height:0;padding-bottom:calc((100% - 16px) / 2 * 16 / 9)}
+@media (max-width:640px){.card.wide .thumb{padding-bottom:calc((100% - 12px) / 2 * 16 / 9)}}
+.card.wide .thumb img,.card.wide .thumb video{object-fit:contain}
+.m video.wide{height:auto;width:min(1100px,92vw);aspect-ratio:16/9;max-height:84vh}
+.m:has(video.wide){grid-template-columns:auto 280px}
+@media (max-width:1100px){.m:has(video.wide){grid-template-columns:1fr}.m:has(video.wide) .m-side{display:none}}
 .card h5{font-size:15px;font-weight:600;line-height:1.5;letter-spacing:.015em}
 .card .k{font-size:13px;color:var(--rose);line-height:1.55}
 .card .tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -509,7 +517,7 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
         </figure>
         <div class="intro" data-r>
           <span class="badge" data-en="Now taking new projects">Đang nhận dự án mới</span>
-          <p class="lead" data-en="I&#x27;m a short-form video editor focused mainly on spas and aesthetic clinics. Every video I edit starts from what your customers care about, because viewers only stop scrolling when they see their own problem in it.">Em là editor video ngắn, tập trung nhiều nhất vào spa và thẩm mỹ viện. Mỗi video em dựng đều bắt đầu từ điều khách hàng của anh chị đang quan tâm, vì người xem chỉ dừng lại khi thấy vấn đề của chính mình trong đó.</p>
+          <p class="lead" data-en="I&#x27;m a short-form video editor working with spas, aesthetic clinics and product brands. Every video I edit starts from what your customers care about, because viewers only stop scrolling when they see their own problem in it.">Em là editor video ngắn, đã dựng cho spa, thẩm mỹ viện và các thương hiệu sản phẩm. Mỗi video em dựng đều bắt đầu từ điều khách hàng của anh chị đang quan tâm, vì người xem chỉ dừng lại khi thấy vấn đề của chính mình trong đó.</p>
           <div class="ctas"><button class="btn" data-go="1" data-en="View projects">Xem dự án</button><a class="btn btn-line" href="#dich-vu" data-go="2" data-contact data-en="Request a quote">Liên hệ báo giá</a></div>
         </div>
       </div>
@@ -526,7 +534,7 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
       <div class="why" style="margin-top:24px">
         <div data-r><span class="n">01</span><h3 data-en="Footage, but no time to edit">Có clip, chưa có thời gian dựng</h3><p data-en="You focus on your clients and your expertise. I take care of selecting shots, cutting, subtitles and finishing the video.">Anh chị tập trung vào khách hàng và chuyên môn. Việc chọn cảnh, cắt ghép, làm phụ đề và hoàn thiện video do em đảm nhận.</p></div>
         <div data-r><span class="n">02</span><h3 data-en="Edits that miss the mark">Video đã dựng chưa đúng ý</h3><p data-en="Before editing, we discuss the style, colors and message you want to get across. Each video includes up to 3 rounds of revisions.">Trước khi dựng, em trao đổi với anh chị về phong cách, màu sắc và thông điệp anh chị muốn truyền tải. Mỗi video được chỉnh sửa tối đa 3 lần.</p></div>
-        <div data-r><span class="n">03</span><h3 data-en="Viewers scroll away too soon">Chưa giữ được người xem</h3><p data-en="I put the most work into the opening seconds, the part that decides whether viewers keep watching your expert.">Em đầu tư nhiều nhất vào những giây mở đầu, phần quyết định người xem có tiếp tục theo dõi nội dung của chuyên gia hay không.</p></div>
+        <div data-r><span class="n">03</span><h3 data-en="Viewers scroll away too soon">Chưa giữ được người xem</h3><p data-en="I put the most work into the opening seconds, the part that decides whether viewers stay to the end.">Em đầu tư nhiều nhất vào những giây mở đầu, phần quyết định người xem có ở lại đến hết video hay không.</p></div>
       </div>
     </div>
     <div class="marquee" aria-label="Kỹ thuật dựng"><div class="row" id="mq"></div></div>
@@ -557,7 +565,7 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
       </div>
       <div class="groups" id="groups" role="tablist"></div>
       <div id="panels"></div>
-      <p class="price-note" style="margin-top:28px" data-en="These are some sample videos from the beauty industry. I also edit videos for other fields. If you would like to see samples closer to your industry, message me on Zalo &lt;b&gt;0768 727 378&lt;/b&gt;.">Trên đây là một số video mẫu trong lĩnh vực làm đẹp. Em cũng nhận dựng video cho các lĩnh vực khác. Anh chị cần xem mẫu gần với ngành của mình, vui lòng nhắn em qua Zalo <b>0768 727 378</b>.</p>
+      <p class="price-note" style="margin-top:28px" data-en="I edit videos for many other fields too. If you would like to see samples closer to your industry, message me on Zalo &lt;b&gt;0768 727 378&lt;/b&gt;.">Ngoài các lĩnh vực trên, em nhận dựng video cho nhiều ngành khác. Anh chị cần xem mẫu gần với ngành của mình, vui lòng nhắn em qua Zalo <b>0768 727 378</b>.</p>
       <button class="next" data-go="2"><div><span class="mono" data-en="Next - 03">Tiếp theo - 03</span><span class="display" data-en="Services and pricing">Dịch vụ và bảng giá</span></div><span class="arrow" aria-hidden="true">↓</span></button>
       <p class="mono next-hint" data-en="Scroll down to continue">Cuộn xuống để chuyển trang</p>
     </div>
@@ -661,25 +669,28 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
 <script>
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const V = {
-  v10:{t:"Thâm mụn mãi không hết?", k:"Mở đầu bằng cận cảnh da", g:"truoc-sau", dur:"1:30", tags:["Cận cảnh da","Phụ đề nhấn chữ"], d:"Video mở đầu bằng cận cảnh làn da cùng câu hỏi quen thuộc của người bị thâm mụn, giúp người xem nhận ra vấn đề của chính mình ngay từ giây đầu."},
-  v11:{t:"Đốm nâu", k:"Hình ảnh thực tế làm điểm nhấn", g:"truoc-sau", dur:"1:04", tags:["Chữ hiệu ứng","Cận cảnh da"], d:"Hình ảnh da trước điều trị được đặt lên đầu, kết hợp chữ hiệu ứng vàng đen để tạo điểm nhấn trước khi chuyên gia giải thích."},
-  v9:{t:"Xử lý nám không cần nghỉ dưỡng", k:"Phiên bản 44 giây cho quảng cáo", g:"truoc-sau", dur:"0:44", tags:["Nhãn trước và sau","Bản rút gọn"], d:"Phiên bản rút gọn dưới 45 giây, có nhãn Trước rõ ràng và mở đầu bằng mối lo phải nghỉ dưỡng khi điều trị nám. Phù hợp để chạy quảng cáo."},
-  v1:{t:"Da nhiễm corticoid", k:"Biểu tượng cảnh báo từ giây đầu", g:"chuyen-gia", dur:"1:31", tags:["Biểu tượng cảnh báo","Thanh tiêu đề"], d:"Với chủ đề da nhiễm corticoid, biểu tượng cảnh báo và thanh tiêu đề được đặt ngay từ giây đầu để người xem dừng lại."},
-  v2:{t:"Nám mảng nội tiết", k:"Chia nội dung theo từng giai đoạn", g:"chuyen-gia", dur:"1:10", tags:["Chữ hiệu ứng","Tiêu đề từng phần"], d:"Nội dung được chia theo từng giai đoạn của nám, mỗi phần có tiêu đề riêng để người xem dễ theo dõi trong suốt hơn 1 phút."},
-  v3:{t:"Nám mảng nội tiết, bản quảng cáo", k:"Bổ sung đoạn kết kêu gọi liên hệ", g:"chuyen-gia", dur:"1:22", tags:["Đoạn kết kêu gọi","Bản quảng cáo"], d:"Cùng nội dung với video trên, bổ sung đoạn kết có số điện thoại của spa. Từ một lần quay, spa có thêm một phiên bản riêng để chạy quảng cáo."},
-  v4:{t:"Tăng sắc tố và nám", k:"Logo xuất hiện xuyên suốt", g:"chuyen-gia", dur:"1:33", tags:["Chữ hiệu ứng","Logo thương hiệu"], d:"Tiêu đề chữ đỏ trắng tạo điểm nhấn ở phần mở đầu. Logo spa được giữ ở góc trên trong suốt video để tăng nhận diện thương hiệu."},
-  v5:{t:"Chữa lành làn da không xâm lấn", k:"Icon minh hoạ theo lời chuyên gia", g:"chuyen-gia", dur:"1:15", tags:["Icon minh hoạ","Phụ đề nhấn chữ"], d:"Các icon về nỗi lo đau, sợ laser, sợ tổn thương xuất hiện đúng thời điểm chuyên gia nhắc đến, giúp khách hàng cảm thấy được thấu hiểu."},
-  v6:{t:"Lỗ chân lông to", k:"Nhịp dựng nhanh, chữ nổi bật", g:"chuyen-gia", dur:"1:05", tags:["Chữ hiệu ứng","Phụ đề"], d:"Với một chủ đề quen thuộc, video được dựng với nhịp nhanh hơn và chữ hiệu ứng nổi bật để giữ sự chú ý của người xem."},
-  v7:{t:"Mụn có tái phát không?", k:"Giữ nhịp cho video hơn 2 phút", g:"chuyen-gia", dur:"2:06", tags:["Hiệu ứng mở đầu","Chuyển cảnh"], d:"Video có thời lượng hơn 2 phút. Hiệu ứng ánh sáng ở phần mở đầu cùng chuyển cảnh và phụ đề đều đặn giúp người xem theo dõi đến cuối."},
-  v8:{t:"Nghe lời bạn bè, dùng đồ bậy", k:"Tiết chế hiệu ứng cho nội dung kể chuyện", g:"chuyen-gia", dur:"1:14", tags:["Thanh tiêu đề","Phụ đề kể chuyện"], d:"Video kể lại một câu chuyện thực tế nên hiệu ứng được tiết chế, phụ đề gọn để người xem tập trung vào lời kể."}
+  v12:{t:"POV: Đi săn giày chạy mới", k:"Mở đầu bằng góc nhìn POV", g:"thuong-hieu", f:"Video quảng bá", dur:"0:36", tags:["Dựng theo nhịp nhạc","Chữ hiệu ứng"], d:"Video quảng bá giày chạy XTEP theo dạng POV đi săn giày mới: mở đầu bằng câu hook trên nền tường gạch, sau đó là trải nghiệm thử giày tại cửa hàng, cắt theo nhịp nhạc và kết bằng hashtag thương hiệu."},
+  v10:{t:"Thâm mụn mãi không hết?", k:"Mở đầu bằng cận cảnh da", g:"spa", f:"Trước và sau", dur:"1:30", tags:["Cận cảnh da","Phụ đề nhấn chữ"], d:"Video mở đầu bằng cận cảnh làn da cùng câu hỏi quen thuộc của người bị thâm mụn, giúp người xem nhận ra vấn đề của chính mình ngay từ giây đầu."},
+  v11:{t:"Đốm nâu", k:"Hình ảnh thực tế làm điểm nhấn", g:"spa", f:"Trước và sau", dur:"1:04", tags:["Chữ hiệu ứng","Cận cảnh da"], d:"Hình ảnh da trước điều trị được đặt lên đầu, kết hợp chữ hiệu ứng vàng đen để tạo điểm nhấn trước khi chuyên gia giải thích."},
+  v9:{t:"Xử lý nám không cần nghỉ dưỡng", k:"Phiên bản 44 giây cho quảng cáo", g:"spa", f:"Trước và sau", dur:"0:44", tags:["Nhãn trước và sau","Bản rút gọn"], d:"Phiên bản rút gọn dưới 45 giây, có nhãn Trước rõ ràng và mở đầu bằng mối lo phải nghỉ dưỡng khi điều trị nám. Phù hợp để chạy quảng cáo."},
+  v1:{t:"Da nhiễm corticoid", k:"Biểu tượng cảnh báo từ giây đầu", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:31", tags:["Biểu tượng cảnh báo","Thanh tiêu đề"], d:"Với chủ đề da nhiễm corticoid, biểu tượng cảnh báo và thanh tiêu đề được đặt ngay từ giây đầu để người xem dừng lại."},
+  v2:{t:"Nám mảng nội tiết", k:"Chia nội dung theo từng giai đoạn", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:10", tags:["Chữ hiệu ứng","Tiêu đề từng phần"], d:"Nội dung được chia theo từng giai đoạn của nám, mỗi phần có tiêu đề riêng để người xem dễ theo dõi trong suốt hơn 1 phút."},
+  v3:{t:"Nám mảng nội tiết, bản quảng cáo", k:"Bổ sung đoạn kết kêu gọi liên hệ", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:22", tags:["Đoạn kết kêu gọi","Bản quảng cáo"], d:"Cùng nội dung với video trên, bổ sung đoạn kết có số điện thoại của spa. Từ một lần quay, spa có thêm một phiên bản riêng để chạy quảng cáo."},
+  v4:{t:"Tăng sắc tố và nám", k:"Logo xuất hiện xuyên suốt", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:33", tags:["Chữ hiệu ứng","Logo thương hiệu"], d:"Tiêu đề chữ đỏ trắng tạo điểm nhấn ở phần mở đầu. Logo spa được giữ ở góc trên trong suốt video để tăng nhận diện thương hiệu."},
+  v5:{t:"Chữa lành làn da không xâm lấn", k:"Icon minh hoạ theo lời chuyên gia", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:15", tags:["Icon minh hoạ","Phụ đề nhấn chữ"], d:"Các icon về nỗi lo đau, sợ laser, sợ tổn thương xuất hiện đúng thời điểm chuyên gia nhắc đến, giúp khách hàng cảm thấy được thấu hiểu."},
+  v6:{t:"Lỗ chân lông to", k:"Nhịp dựng nhanh, chữ nổi bật", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:05", tags:["Chữ hiệu ứng","Phụ đề"], d:"Với một chủ đề quen thuộc, video được dựng với nhịp nhanh hơn và chữ hiệu ứng nổi bật để giữ sự chú ý của người xem."},
+  v7:{t:"Mụn có tái phát không?", k:"Giữ nhịp cho video hơn 2 phút", g:"spa", f:"Chuyên gia chia sẻ", dur:"2:06", tags:["Hiệu ứng mở đầu","Chuyển cảnh"], d:"Video có thời lượng hơn 2 phút. Hiệu ứng ánh sáng ở phần mở đầu cùng chuyển cảnh và phụ đề đều đặn giúp người xem theo dõi đến cuối."},
+  v8:{t:"Nghe lời bạn bè, dùng đồ bậy", k:"Tiết chế hiệu ứng cho nội dung kể chuyện", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:14", tags:["Thanh tiêu đề","Phụ đề kể chuyện"], d:"Video kể lại một câu chuyện thực tế nên hiệu ứng được tiết chế, phụ đề gọn để người xem tập trung vào lời kể."}
 };
-const ORDER = ["v10","v11","v9","v1","v2","v3","v4","v5","v6","v7","v8"];
+const ORDER = ["v12","v10","v11","v9","v1","v2","v3","v4","v5","v6","v7","v8"];
+/* Lĩnh vực. Thêm lĩnh vực mới: thêm 1 dòng ở đây + 1 dòng ở EN.GROUPS bên dưới, rồi gán g:"id" cho video. */
 const GROUPS = [
-  {id:"truoc-sau", title:"Trước và sau", topics:"Thâm mụn - Đốm nâu - Nám", note:"Video mẫu có hình ảnh làn da thực tế trước điều trị. Nhấn vào video để xem đầy đủ, di chuột lên để xem nhanh."},
-  {id:"chuyen-gia", title:"Chuyên gia chia sẻ", topics:"Corticoid - Nám - Sắc tố - Lỗ chân lông - Mụn", note:"Video mẫu dạng chuyên gia chia sẻ kiến thức trước camera. Em đảm nhận phần chữ, phụ đề, icon minh hoạ và nhịp dựng để nội dung dễ theo dõi đến cuối."}
+  {id:"all", title:"Tất cả", note:"Toàn bộ video em đã dựng. Chọn một lĩnh vực để lọc, nhấn vào video để xem đầy đủ, di chuột lên để xem nhanh."},
+  {id:"spa", title:"Spa & làm đẹp", note:"Video trước và sau, chuyên gia chia sẻ kiến thức trước camera. Em đảm nhận phần chữ, phụ đề, icon minh hoạ và nhịp dựng để nội dung dễ theo dõi đến cuối."},
+  {id:"thuong-hieu", title:"Quảng bá thương hiệu", note:"Video quảng bá sản phẩm và thương hiệu, dựng theo nhịp nhạc với chuyển cảnh và chữ hiệu ứng để giữ người xem từ giây đầu."}
 ];
 const SVC = [
-  {k:"Theo video", t:"Dựng video", p:"Dựng hoàn chỉnh từng video từ clip anh chị cung cấp, sẵn sàng đăng lên TikTok, Facebook Reels và YouTube Shorts.", li:["Video 9:16, chất lượng Full HD","Chữ mở đầu và phụ đề tiếng Việt","Chỉnh màu da, logo, nhạc nền","Chỉnh sửa tối đa 3 lần"]}
+  {k:"Theo video", t:"Dựng video", p:"Dựng hoàn chỉnh từng video từ clip anh chị cung cấp, sẵn sàng đăng lên TikTok, Facebook Reels và YouTube Shorts.", li:["Video 9:16, chất lượng Full HD","Chữ mở đầu và phụ đề tiếng Việt","Chỉnh màu, logo, nhạc nền","Chỉnh sửa tối đa 3 lần"]}
 ];
 const VIEWS = [{id:"gioi-thieu", t:"Giới thiệu"},{id:"du-an", t:"Dự án"},{id:"dich-vu", t:"Dịch vụ"}];
 const poster = id => `t/${id}.jpg`, src = id => `v/${id}.mp4`;
@@ -690,29 +701,31 @@ try { lang = localStorage.getItem("pf-lang") === "en" ? "en" : "vi"; } catch (e)
 const L = (vi, en) => lang === "en" ? en : vi;
 const EN = {
   V:{
-    v10:{t:"Acne scars that won't fade?", k:"Opens with a skin close-up", tags:["Skin close-up","Highlighted subtitles"], d:"The video opens with a close-up of the skin and a question everyone with acne scars has asked, so viewers recognize their own problem from the first second."},
-    v11:{t:"Brown spots", k:"Real footage as the focal point", tags:["Animated text","Skin close-up"], d:"Footage of the skin before treatment comes first, paired with yellow and black animated text to create impact before the expert explains."},
-    v9:{t:"Melasma treatment without downtime", k:"44-second version for ads", tags:["Before and after labels","Cut-down version"], d:"A cut-down version under 45 seconds with a clear Before label, opening with the worry about downtime during melasma treatment. Suited for running ads."},
-    v1:{t:"Corticoid-damaged skin", k:"Warning sign from the first second", tags:["Warning icon","Title bar"], d:"For the topic of corticoid-damaged skin, a warning icon and title bar appear in the very first second to make viewers stop."},
-    v2:{t:"Hormonal melasma", k:"Content split into stages", tags:["Animated text","Section titles"], d:"The content is divided by each stage of melasma, each with its own title, so viewers can follow along for over a minute."},
-    v3:{t:"Hormonal melasma, ad version", k:"Adds a closing call to action", tags:["Closing call to action","Ad version"], d:"Same content as the video above, with a closing segment showing the spa's phone number. One shoot gives the spa an extra version for ads."},
-    v4:{t:"Hyperpigmentation and melasma", k:"Logo visible throughout", tags:["Animated text","Brand logo"], d:"Red and white title text grabs attention at the start. The spa's logo stays in the top corner for the whole video to build brand recognition."},
-    v5:{t:"Non-invasive skin healing", k:"Icons that follow the expert's words", tags:["Illustrative icons","Highlighted subtitles"], d:"Icons for fear of pain, of lasers and of skin damage appear exactly when the expert mentions them, so customers feel understood."},
-    v6:{t:"Enlarged pores", k:"Fast pacing, bold text", tags:["Animated text","Subtitles"], d:"For a familiar topic, the video is edited at a faster pace with bold animated text to hold viewers' attention."},
-    v7:{t:"Will acne come back?", k:"Keeping pace over 2 minutes", tags:["Opening effect","Transitions"], d:"A video over 2 minutes long. A light effect at the opening plus steady transitions and subtitles help viewers watch to the end."},
-    v8:{t:"Listening to friends, using bad products", k:"Restrained effects for storytelling", tags:["Title bar","Story subtitles"], d:"The video retells a real story, so effects are kept minimal and subtitles compact to keep viewers focused on the narrative."}
+    v12:{f:"Promo video", t:"POV: Hunting for new running shoes", k:"Opens with a POV hook", tags:["Cut to the beat","Animated text"], d:"A promo for XTEP running shoes in a POV shoe-hunting format: a hook line over a brick wall, then trying the shoes in store, cut to the beat and closed with the brand hashtag."},
+    v10:{f:"Before and after", t:"Acne scars that won't fade?", k:"Opens with a skin close-up", tags:["Skin close-up","Highlighted subtitles"], d:"The video opens with a close-up of the skin and a question everyone with acne scars has asked, so viewers recognize their own problem from the first second."},
+    v11:{f:"Before and after", t:"Brown spots", k:"Real footage as the focal point", tags:["Animated text","Skin close-up"], d:"Footage of the skin before treatment comes first, paired with yellow and black animated text to create impact before the expert explains."},
+    v9:{f:"Before and after", t:"Melasma treatment without downtime", k:"44-second version for ads", tags:["Before and after labels","Cut-down version"], d:"A cut-down version under 45 seconds with a clear Before label, opening with the worry about downtime during melasma treatment. Suited for running ads."},
+    v1:{f:"Expert talk", t:"Corticoid-damaged skin", k:"Warning sign from the first second", tags:["Warning icon","Title bar"], d:"For the topic of corticoid-damaged skin, a warning icon and title bar appear in the very first second to make viewers stop."},
+    v2:{f:"Expert talk", t:"Hormonal melasma", k:"Content split into stages", tags:["Animated text","Section titles"], d:"The content is divided by each stage of melasma, each with its own title, so viewers can follow along for over a minute."},
+    v3:{f:"Expert talk", t:"Hormonal melasma, ad version", k:"Adds a closing call to action", tags:["Closing call to action","Ad version"], d:"Same content as the video above, with a closing segment showing the spa's phone number. One shoot gives the spa an extra version for ads."},
+    v4:{f:"Expert talk", t:"Hyperpigmentation and melasma", k:"Logo visible throughout", tags:["Animated text","Brand logo"], d:"Red and white title text grabs attention at the start. The spa's logo stays in the top corner for the whole video to build brand recognition."},
+    v5:{f:"Expert talk", t:"Non-invasive skin healing", k:"Icons that follow the expert's words", tags:["Illustrative icons","Highlighted subtitles"], d:"Icons for fear of pain, of lasers and of skin damage appear exactly when the expert mentions them, so customers feel understood."},
+    v6:{f:"Expert talk", t:"Enlarged pores", k:"Fast pacing, bold text", tags:["Animated text","Subtitles"], d:"For a familiar topic, the video is edited at a faster pace with bold animated text to hold viewers' attention."},
+    v7:{f:"Expert talk", t:"Will acne come back?", k:"Keeping pace over 2 minutes", tags:["Opening effect","Transitions"], d:"A video over 2 minutes long. A light effect at the opening plus steady transitions and subtitles help viewers watch to the end."},
+    v8:{f:"Expert talk", t:"Listening to friends, using bad products", k:"Restrained effects for storytelling", tags:["Title bar","Story subtitles"], d:"The video retells a real story, so effects are kept minimal and subtitles compact to keep viewers focused on the narrative."}
   },
   GROUPS:[
-    {title:"Before and after", topics:"Acne scars - Brown spots - Melasma", note:"Sample videos showing real skin before treatment. Click a video to watch it in full, hover to preview."},
-    {title:"Expert talks", topics:"Corticoid - Melasma - Pigmentation - Pores - Acne", note:"Sample videos of experts sharing knowledge on camera. I handle the text, subtitles, icons and pacing so the content is easy to follow to the end."}
+    {title:"All", note:"Every video I have edited. Pick a field to filter, click a video to watch it in full, hover to preview."},
+    {title:"Spa & beauty", note:"Before-and-after videos and experts sharing knowledge on camera. I handle the text, subtitles, icons and pacing so the content is easy to follow to the end."},
+    {title:"Brand promos", note:"Product and brand promo videos, cut to the beat with transitions and animated text to hold viewers from the first second."}
   ],
-  SVC:[{k:"Per video", t:"Video editing", p:"Complete editing of each video from the footage you provide, ready to post on TikTok, Facebook Reels and YouTube Shorts.", li:["9:16 video, Full HD quality","Opening text and Vietnamese subtitles","Skin color correction, logo, background music","Up to 3 rounds of revisions"]}],
+  SVC:[{k:"Per video", t:"Video editing", p:"Complete editing of each video from the footage you provide, ready to post on TikTok, Facebook Reels and YouTube Shorts.", li:["9:16 video, Full HD quality","Opening text and Vietnamese subtitles","Color correction, logo, background music","Up to 3 rounds of revisions"]}],
   VIEWS:["About","Projects","Services"],
-  MQ:["Opening text","Vietnamese subtitles","Before and after","Color correction","Illustrative icons","Section titles","Closing call to action","Brand logo"]
+  MQ:["Opening text","Vietnamese subtitles","Cut to the beat","Color correction","Illustrative icons","Brand promos","Closing call to action","Brand logo"]
 };
 const VI = JSON.parse(JSON.stringify({V, GROUPS, SVC, VIEWS:VIEWS.map(v => v.t)}));
 let MQ;
-const MQ_VI = ["Chữ mở đầu","Phụ đề tiếng Việt","Trước và sau","Chỉnh màu","Icon minh hoạ","Tiêu đề từng phần","Đoạn kết kêu gọi","Logo thương hiệu"];
+const MQ_VI = ["Chữ mở đầu","Phụ đề tiếng Việt","Dựng theo nhịp nhạc","Chỉnh màu","Icon minh hoạ","Video quảng bá","Đoạn kết kêu gọi","Logo thương hiệu"];
 function swapData(){
   const src = lang === "en" ? EN : VI;
   for (const id in V) Object.assign(V[id], src.V[id]);
@@ -875,37 +888,29 @@ function renderTrack(){
 }
 renderTrack();
 
-/* ---------- nhóm dự án ---------- */
+/* ---------- dự án: lọc theo lĩnh vực ---------- */
 const groupsEl = document.getElementById("groups"), panelsEl = document.getElementById("panels");
+let curGroup = "all";
+const gTitle = id => GROUPS.find(g => g.id === id)?.title || "";
 function renderGroups(){
-const openId = groupsEl.querySelector('[aria-expanded="true"]')?.dataset.group;
-groupsEl.innerHTML = GROUPS.map(g => {
-  const n = ORDER.filter(id => V[id].g === g.id).length;
-  return `<button class="gchip" role="tab" aria-expanded="false" aria-controls="panel-${g.id}" data-group="${g.id}">${g.title}<span>${n}</span></button>`;
-}).join("");
-panelsEl.innerHTML = GROUPS.map(g => {
-  const ids = ORDER.filter(id => V[id].g === g.id);
-  return `<div class="panel" id="panel-${g.id}" hidden>
+  groupsEl.innerHTML = GROUPS.map(g => {
+    const n = g.id === "all" ? ORDER.length : ORDER.filter(id => V[id].g === g.id).length;
+    if (!n) return "";
+    return `<button class="gchip" role="tab" aria-selected="${g.id === curGroup}" data-group="${g.id}">${g.title}<span>${n}</span></button>`;
+  }).join("");
+  const g = GROUPS.find(x => x.id === curGroup);
+  const ids = ORDER.filter(id => curGroup === "all" || V[id].g === curGroup);
+  panelsEl.innerHTML = `<div class="panel" role="tabpanel">
     <div class="panel-head"><h4>${g.title}</h4><p>${g.note}</p></div>
     <div class="grid">${ids.map(id => `
-      <button class="card" data-play="${id}" aria-label="${L("Xem","Watch")} ${V[id].t}">
+      <button class="card${V[id].wide ? " wide" : ""}" data-play="${id}" aria-label="${L("Xem","Watch")} ${V[id].t}">
         <div class="thumb"><img src="${poster(id)}" alt="" loading="lazy"><video muted loop playsinline preload="none" data-src="${src(id)}"></video><span class="dur">${V[id].dur}</span></div>
-        <h5>${V[id].t}</h5><span class="k">${V[id].k}</span><div class="tags">${V[id].tags.slice(0,2).map(t => `<span>${t}</span>`).join("")}</div>
+        <span class="cat">${curGroup === "all" ? gTitle(V[id].g) : (V[id].f || gTitle(V[id].g))}</span><h5>${V[id].t}</h5><span class="k">${V[id].k}</span><div class="tags">${V[id].tags.slice(0,2).map(t => `<span>${t}</span>`).join("")}</div>
       </button>`).join("")}</div></div>`;
-}).join("");
-
-if (openId) openGroup(openId);
 }
-function openGroup(id){
-  groupsEl.querySelectorAll(".group").forEach(b => {
-    const on = b.dataset.group === id;
-    b.setAttribute("aria-expanded", on);
-    document.getElementById("panel-" + b.dataset.group).hidden = !on;
-  });
-}
+function openGroup(id){ curGroup = id; renderGroups(); }
 groupsEl.addEventListener("click", e => { const b = e.target.closest(".gchip"); if (b) openGroup(b.dataset.group); });
 renderGroups();
-openGroup("chuyen-gia");
 panelsEl.addEventListener("pointerover", e => {
   const c = e.target.closest(".card"); if (!c || c.classList.contains("playing") || e.pointerType === "touch") return;
   const v = c.querySelector("video"); if (!v.src) v.src = v.dataset.src;
@@ -945,8 +950,9 @@ const modal = document.getElementById("modal"), mv = document.getElementById("m-
 let vi = 0;
 function play(id){
   vi = ORDER.indexOf(id); const v = V[id];
+  mv.classList.toggle("wide", !!v.wide);
   mv.src = src(id); mv.poster = poster(id);
-  document.getElementById("m-group").textContent = GROUPS.find(g => g.id === v.g).title + " - " + v.dur;
+  document.getElementById("m-group").textContent = (v.f ? gTitle(v.g) + " - " + v.f : gTitle(v.g)) + " - " + v.dur;
   document.getElementById("m-title").textContent = v.t;
   document.getElementById("m-desc").innerHTML = `<b style="color:var(--ink);display:block;margin-bottom:6px">${v.k}</b>${v.d}`;
   document.getElementById("m-tags").innerHTML = v.tags.map(t => `<span>${t}</span>`).join("");
@@ -988,7 +994,7 @@ function setLang(l){
   });
   document.querySelectorAll("[data-count][data-done]").forEach(el => el.textContent = el.dataset.count + suffixOf(el));
   renderMQ(); renderTrack(); renderGroups(); renderSvc(); paintLangUI();
-  if (modal.open) { const v = V[ORDER[vi]]; document.getElementById("m-group").textContent = GROUPS.find(g => g.id === v.g).title + " - " + v.dur; document.getElementById("m-title").textContent = v.t; document.getElementById("m-desc").innerHTML = `<b style="color:var(--ink);display:block;margin-bottom:6px">${v.k}</b>${v.d}`; document.getElementById("m-tags").innerHTML = v.tags.map(t => `<span>${t}</span>`).join(""); }
+  if (modal.open) { const v = V[ORDER[vi]]; document.getElementById("m-group").textContent = (v.f ? gTitle(v.g) + " - " + v.f : gTitle(v.g)) + " - " + v.dur; document.getElementById("m-title").textContent = v.t; document.getElementById("m-desc").innerHTML = `<b style="color:var(--ink);display:block;margin-bottom:6px">${v.k}</b>${v.d}`; document.getElementById("m-tags").innerHTML = v.tags.map(t => `<span>${t}</span>`).join(""); }
 }
 document.getElementById("lang-btn").onclick = () => setLang(lang === "en" ? "vi" : "en");
 document.querySelectorAll(".seg button").forEach(b => b.onclick = () => setLang(b.dataset.lang));
