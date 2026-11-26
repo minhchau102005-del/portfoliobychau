@@ -1,0 +1,25 @@
+# Cấu hình tiết kiệm credit Netlify
+# Mỗi lần deploy trang chính tốn 15 credit, nên Netlify CHỈ deploy khi
+# nội dung commit có chữ [deploy]. Các commit khác được bỏ qua (không tốn credit).
+# Ví dụ: "Thêm video mới [deploy]"
+
+[build]
+  publish = "."
+  # exit 0 = bỏ qua build, exit 1 = tiếp tục build
+  ignore = "git log -1 --pretty=%B | grep -qF '[deploy]' && exit 1 || exit 0"
+
+# Cho trình duyệt giữ video và ảnh 30 ngày, người xem quay lại không phải tải lại
+[[headers]]
+  for = "/v/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/m/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/t/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
