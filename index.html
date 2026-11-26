@@ -168,6 +168,19 @@ section{padding:80px 0}
 @keyframes orb{50%{transform:scale(1.25);opacity:.55}}
 .sparkle path{transform-box:fill-box;transform-origin:center;animation:tw 2.6s ease-in-out infinite}
 .sparkle path:nth-child(2){animation-delay:1.3s}
+.case{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:48px;align-items:center;background:var(--dark);color:#f5eee5;border-radius:8px;padding:28px;margin-bottom:28px;position:relative;overflow:hidden;isolation:isolate}
+.case::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 85% 15%,rgba(185,119,108,.35),transparent 55%)}
+.case-media video{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;background:#000;display:block}
+.case-text .mono{color:#e9b3a3}
+.case-text h3{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.2vw,56px);text-transform:uppercase;letter-spacing:.05em;line-height:1.15;margin:14px 0 22px}
+.case-meta{display:flex;gap:36px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(245,238,229,.18);border-bottom:1px solid rgba(245,238,229,.18);margin-bottom:22px}
+.case-meta dt{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#bfa999}
+.case-meta dd{font-family:var(--display);font-size:24px;letter-spacing:.06em;margin-top:2px}
+.case-text p{color:#e6d8cc;max-width:52ch;line-height:1.85}
+.case-did-h{margin:26px 0 12px}
+.case-did{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.case-did li{font-size:13px;border:1px solid rgba(245,238,229,.28);padding:5px 12px;border-radius:99px}
+@media (max-width:860px){.case{grid-template-columns:1fr;gap:26px;padding:16px}.case-media video{max-width:380px;margin:0 auto}.case-meta{gap:24px}}
 .ba-feature{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:36px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:28px}
 .ba-feature video{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:var(--dark);display:block}
 .ba-text .mono{color:var(--gold)}
@@ -555,6 +568,7 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
     <div class="strip" aria-label="Tất cả video"><div class="track" id="track"></div></div>
     <p class="strip-hint mono" data-en="Tap any video to watch it in full">Nhấn vào video bất kỳ để xem chi tiết</p>
     <div class="wrap">
+      <div class="case" id="case" data-r></div>
       <div class="ba-feature" data-r>
         <video src="m/truoc-sau.mp4" poster="m/truoc-sau.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
         <div class="ba-text">
@@ -563,7 +577,6 @@ dialog::backdrop{background:rgba(42,31,27,.88)}
           <p data-en="On the left is the phone footage, on the right the same clip after editing, with opening text, subtitles, illustrations and skin color correction.">Bên trái là clip quay bằng điện thoại, bên phải là cùng đoạn clip sau khi em dựng, đã thêm chữ mở đầu, phụ đề, hình minh hoạ và chỉnh màu da.</p>
         </div>
       </div>
-      <div class="groups" id="groups" role="tablist"></div>
       <div id="panels"></div>
       <p class="price-note" style="margin-top:28px" data-en="I edit videos for many other fields too. If you would like to see samples closer to your industry, message me on Zalo &lt;b&gt;0768 727 378&lt;/b&gt;.">Ngoài các lĩnh vực trên, em nhận dựng video cho nhiều ngành khác. Anh chị cần xem mẫu gần với ngành của mình, vui lòng nhắn em qua Zalo <b>0768 727 378</b>.</p>
       <button class="next" data-go="2"><div><span class="mono" data-en="Next - 03">Tiếp theo - 03</span><span class="display" data-en="Services and pricing">Dịch vụ và bảng giá</span></div><span class="arrow" aria-hidden="true">↓</span></button>
@@ -682,6 +695,8 @@ const V = {
   v7:{t:"Mụn có tái phát không?", k:"Giữ nhịp cho video hơn 2 phút", g:"spa", f:"Chuyên gia chia sẻ", dur:"2:06", tags:["Hiệu ứng mở đầu","Chuyển cảnh"], d:"Video có thời lượng hơn 2 phút. Hiệu ứng ánh sáng ở phần mở đầu cùng chuyển cảnh và phụ đề đều đặn giúp người xem theo dõi đến cuối."},
   v8:{t:"Nghe lời bạn bè, dùng đồ bậy", k:"Tiết chế hiệu ứng cho nội dung kể chuyện", g:"spa", f:"Chuyên gia chia sẻ", dur:"1:14", tags:["Thanh tiêu đề","Phụ đề kể chuyện"], d:"Video kể lại một câu chuyện thực tế nên hiệu ứng được tiết chế, phụ đề gọn để người xem tập trung vào lời kể."}
 };
+/* Dự án nổi bật: hiện thành khối lớn ở đầu mục Dự án. Đổi id để chọn video khác. */
+const FEATURE = {id:"v12", client:"XTEP", did:["Câu hook POV ở giây đầu","Cắt cảnh theo nhịp nhạc","Chữ hiệu ứng và chuyển cảnh","Chỉnh màu sản phẩm","Kết bằng hashtag thương hiệu"]};
 const ORDER = ["v12","v10","v11","v9","v1","v2","v3","v4","v5","v6","v7","v8"];
 /* Lĩnh vực. Thêm lĩnh vực mới: thêm 1 dòng ở đây + 1 dòng ở EN.GROUPS bên dưới, rồi gán g:"id" cho video. */
 const GROUPS = [
@@ -721,9 +736,10 @@ const EN = {
   ],
   SVC:[{k:"Per video", t:"Video editing", p:"Complete editing of each video from the footage you provide, ready to post on TikTok, Facebook Reels and YouTube Shorts.", li:["9:16 video, Full HD quality","Opening text and Vietnamese subtitles","Color correction, logo, background music","Up to 3 rounds of revisions"]}],
   VIEWS:["About","Projects","Services"],
+  DID:["POV hook in the first second","Cuts timed to the music","Animated text and transitions","Product color grading","Closing brand hashtag"],
   MQ:["Opening text","Vietnamese subtitles","Cut to the beat","Color correction","Illustrative icons","Brand promos","Closing call to action","Brand logo"]
 };
-const VI = JSON.parse(JSON.stringify({V, GROUPS, SVC, VIEWS:VIEWS.map(v => v.t)}));
+const VI = JSON.parse(JSON.stringify({V, GROUPS, SVC, VIEWS:VIEWS.map(v => v.t), DID:FEATURE.did}));
 let MQ;
 const MQ_VI = ["Chữ mở đầu","Phụ đề tiếng Việt","Dựng theo nhịp nhạc","Chỉnh màu","Icon minh hoạ","Video quảng bá","Đoạn kết kêu gọi","Logo thương hiệu"];
 function swapData(){
@@ -732,6 +748,7 @@ function swapData(){
   GROUPS.forEach((g, i) => Object.assign(g, src.GROUPS[i]));
   SVC.forEach((s, i) => Object.assign(s, src.SVC[i]));
   VIEWS.forEach((v, i) => v.t = src.VIEWS[i]);
+  FEATURE.did = src.DID;
   MQ = lang === "en" ? EN.MQ : MQ_VI;
 }
 swapData();
@@ -888,28 +905,30 @@ function renderTrack(){
 }
 renderTrack();
 
-/* ---------- dự án: lọc theo lĩnh vực ---------- */
-const groupsEl = document.getElementById("groups"), panelsEl = document.getElementById("panels");
-let curGroup = "all";
+/* ---------- dự án: khối nổi bật + lưới video ---------- */
+const panelsEl = document.getElementById("panels"), caseEl = document.getElementById("case");
 const gTitle = id => GROUPS.find(g => g.id === id)?.title || "";
 function renderGroups(){
-  groupsEl.innerHTML = GROUPS.map(g => {
-    const n = g.id === "all" ? ORDER.length : ORDER.filter(id => V[id].g === g.id).length;
-    if (!n) return "";
-    return `<button class="gchip" role="tab" aria-selected="${g.id === curGroup}" data-group="${g.id}">${g.title}<span>${n}</span></button>`;
-  }).join("");
-  const g = GROUPS.find(x => x.id === curGroup);
-  const ids = ORDER.filter(id => curGroup === "all" || V[id].g === curGroup);
-  panelsEl.innerHTML = `<div class="panel" role="tabpanel">
-    <div class="panel-head"><h4>${g.title}</h4><p>${g.note}</p></div>
+  const f = V[FEATURE.id];
+  caseEl.innerHTML = `
+    <div class="case-media"><video src="${src(FEATURE.id)}" poster="${poster(FEATURE.id)}" controls playsinline preload="none"></video></div>
+    <div class="case-text">
+      <div class="mono">${L("Dự án nổi bật","Featured project")} - ${gTitle(f.g)}</div>
+      <h3>${f.t}</h3>
+      <dl class="case-meta"><div><dt>${L("Khách hàng","Client")}</dt><dd>${FEATURE.client}</dd></div><div><dt>${L("Thời lượng","Length")}</dt><dd>${f.dur}</dd></div><div><dt>${L("Định dạng","Format")}</dt><dd>9:16</dd></div></dl>
+      <p>${f.d}</p>
+      <div class="mono case-did-h">${L("Em đã làm","What I did")}</div>
+      <ul class="case-did">${FEATURE.did.map(x => `<li>${x}</li>`).join("")}</ul>
+    </div>`;
+  const ids = ORDER.filter(id => id !== FEATURE.id);
+  panelsEl.innerHTML = `<div class="panel">
+    <div class="panel-head"><h4>${L("Video đã dựng","More work")}</h4><p>${L("Nhấn vào video để xem đầy đủ, di chuột lên để xem nhanh.","Click a video to watch it in full, hover to preview.")}</p></div>
     <div class="grid">${ids.map(id => `
-      <button class="card${V[id].wide ? " wide" : ""}" data-play="${id}" aria-label="${L("Xem","Watch")} ${V[id].t}">
+      <button class="card" data-play="${id}" aria-label="${L("Xem","Watch")} ${V[id].t}">
         <div class="thumb"><img src="${poster(id)}" alt="" loading="lazy"><video muted loop playsinline preload="none" data-src="${src(id)}"></video><span class="dur">${V[id].dur}</span></div>
-        <span class="cat">${curGroup === "all" ? gTitle(V[id].g) : (V[id].f || gTitle(V[id].g))}</span><h5>${V[id].t}</h5><span class="k">${V[id].k}</span><div class="tags">${V[id].tags.slice(0,2).map(t => `<span>${t}</span>`).join("")}</div>
+        <span class="cat">${V[id].f || gTitle(V[id].g)}</span><h5>${V[id].t}</h5><span class="k">${V[id].k}</span><div class="tags">${V[id].tags.slice(0,2).map(t => `<span>${t}</span>`).join("")}</div>
       </button>`).join("")}</div></div>`;
 }
-function openGroup(id){ curGroup = id; renderGroups(); }
-groupsEl.addEventListener("click", e => { const b = e.target.closest(".gchip"); if (b) openGroup(b.dataset.group); });
 renderGroups();
 panelsEl.addEventListener("pointerover", e => {
   const c = e.target.closest(".card"); if (!c || c.classList.contains("playing") || e.pointerType === "touch") return;
